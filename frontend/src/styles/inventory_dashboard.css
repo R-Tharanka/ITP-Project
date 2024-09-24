@@ -1,0 +1,106 @@
+.dashboard-container {
+    /* display: flex;
+    flex-direction: column;*/
+    width: 100%;
+    /* height: 100vh;  */
+  }
+  
+  .main-content {
+    position: relative;
+    top: 65px;
+    display: flex;
+    flex-grow: 1; /* Take up remaining space */
+    /* padding: 20px; */
+    transition: margin-left 0.3s ease;
+    box-sizing: border-box;
+    width: 100%;
+  }
+  
+  .stockpile-section.expanded {
+    margin-left: 230px; /* Adjust when sidebar is expanded */
+  }
+
+  .stockpile-section.collapsed {
+    margin-left: 70px; /* Adjust when sidebar is collapsed */
+  }
+
+  .stockpile-section {
+    /* margin-left: 250px; Adjust based on sidebar width */
+    padding: 20px;
+    width: 100%;
+    margin-left: 230px;
+    transition: margin-left 0.3s ease;
+  }
+  
+  .stockpile-header {
+    display: flex;
+    justify-content: space-between;
+    padding: 20px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+  }
+  
+  .stockpile-btn, .add-stockpile-btn {
+    padding: 10px 20px;
+    border: none;
+    background-color: #e8f2ed;
+    color: #333;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .add-stockpile-btn {
+    background-color: #d6f5d6;
+  }
+  
+  .stockpile-items {
+    display: flex;
+    justify-content: space-evenly;
+  }
+  
+  .stockpile-item {
+    background-color: #F8FAFC;
+    border-radius: 10px;
+    padding: 20px;
+    text-align: center;
+    width: 160px;
+    /* box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); */
+  }
+  
+  .stockpile-item-indiv1
+  {
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    justify-content: space-around;
+  }
+  .stockpile-item-indiv2
+  {
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    justify-content: space-between;;
+  }
+
+  .stockpile-item img {
+    width: 50px;
+    height: auto;
+    /* margin-bottom: 10px; */
+  }
+  
+  .stockpile-item h3 {
+    font-size: 16px;
+    margin-bottom: 5px;
+  }
+  
+  .stockpile-item p {
+    font-size: 14px;
+    color: #777;
+  }
+  
+  .stockpile-item span {
+    font-size: 16px;
+    color: #333;
+    font-weight: bold;
+  }
+  

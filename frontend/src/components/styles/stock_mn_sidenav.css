@@ -1,0 +1,103 @@
+/* Sidebar styles */
+.sidebar {
+    position: fixed;
+    background-color: #1c4532;
+    /* width: 250px; */
+    height: 80.7vh;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    transition: width 0.3s ease;
+    border-top-right-radius: 20px;
+    margin-top: 40px;
+    overflow: hidden;
+    z-index: 99;
+  }
+  
+  .sidebar.collapsed {
+    width: 50px; /* Width when collapsed */
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+
+  .sidebar.expanded {
+    width: 190px; /* Adjust as per expanded size */
+  }
+  
+  .toggle-btn {
+    align-self: flex-end;
+    cursor: pointer;
+  }
+  
+  .toggle-icon {
+    width: 30px;
+  }
+  
+  .nav-items {
+    list-style: none;
+    padding: 0;
+    margin-top: 40px;
+  }
+  
+  .nav-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+    padding: 10px;
+    cursor: pointer;
+    border-radius: 8px; 
+    transition: background-color 0.3s ease; /* Smooth hover and active transition */
+  }
+  
+  .nav-item .icon {
+    width: 30px;
+    height: 30px;
+    margin-right: 20px;
+  }
+  
+  .nav-item span {
+    font-size: 15px;
+    color: #fff;
+  }
+  
+  .sidebar.collapsed .nav-item span {
+    display: none; /* Hide the text when collapsed */
+  }
+  
+  .sidebar.collapsed .icon {
+    margin-right: 0; 
+  }
+  
+  /* Active item styling */
+  .nav-item.active {
+    background-color: #145a32; /* Slightly darker green for active item */
+  }
+  
+  .nav-item.active .icon,
+  .nav-item.active span {
+    color: #fff; /* Active icon and text color */
+  }
+  
+  /* Hover effect */
+  .nav-item:hover {
+    background-color: #2e6b47; /* Lighter green on hover */
+  }
+  
+  /* Adjusting the content of the page when sidebar expands/collapses */
+  .main-content {
+    transition: margin-left 0.3s ease; /* Smooth transition for main content */
+    /* margin-left: 250px; */
+  }
+  
+  .sidebar.collapsed ~ .main-content {
+    margin-left: 80px; /* When sidebar is collapsed */
+  }
+
+  .sidebar .nav-item a {
+    text-decoration: none;
+    color: inherit;
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+  }
+  

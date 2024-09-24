@@ -1,0 +1,61 @@
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: #f5f7f9;
+    /* border-bottom: 1px solid #e0e0e0; */
+  }
+  
+  .header-left {
+    display: flex;
+    align-items: center;
+  }
+  
+  .logo {
+    font-size: 24px;
+    font-weight: bold;
+    color: #2a4730;
+  }
+  
+  .header-right {
+    display: flex;
+    align-items: center;
+  }
+
+  .top-nav-links
+  {
+    flex-direction: row !important;
+  }
+  .nav-links {
+    display: flex;
+    align-items: center;
+    margin-right: 20px;
+  }
+  
+  .nav-links span {
+    margin: 0 10px;
+    font-size: 16px;
+    color: #2a4730;
+  }
+  
+  .header-icons {
+    display: flex;
+    align-items: center;
+  }
+  
+  .bell-icon {
+    width: 20px;
+    height: 20px;
+    background-image: url('https://via.placeholder.com/20'); /* Replace with your bell icon URL */
+    background-size: cover;
+    margin-right: 15px;
+  }
+  
+  .user-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+  

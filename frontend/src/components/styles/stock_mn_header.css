@@ -1,0 +1,45 @@
+/* stock_mn_header.css */
+.header-wrap
+{
+  position: fixed;
+  width: 100%;
+  z-index: 99;
+}
+.st-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  background-color: #f5f7f6; /* Light background */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.st-logo h1 {
+  font-size: 18px;
+  font-weight: bold;
+  color: #1c4532; /* Dark green accent color */
+}
+
+.st-header-right {
+  width: 140px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.st-notifications {
+  margin-right: 15px;
+}
+
+.st-bell-icon {
+  width: 30px;
+  height: 30px;
+  cursor: pointer;
+}
+
+.st-profile-img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  cursor: pointer;
+}

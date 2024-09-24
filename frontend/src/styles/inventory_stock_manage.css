@@ -1,0 +1,85 @@
+.footer-container
+{
+    margin-top: 120px;
+}
+
+/* ---------------------- cart section css --------------------- */
+
+.chart-summary-container {
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    gap: 20px;
+    padding: 20px;
+    margin-top: 30px;
+    flex-direction: row;
+}
+
+@media(max-width : 900px)
+{
+    .chart-summary-container {
+        flex-wrap: wrap;
+    }
+}
+
+.chart-section, .summary-section {
+    flex: 1 1 45%;
+    background-color: #ffffff;
+    padding: 20px;
+    border: 1px solid #eaeaea;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.chart-section h3, .summary-section h3 {
+    margin-bottom: 20px;
+    font-size: 18px;
+    font-weight: 600;
+    color: #2d2d2d;
+}
+
+.chart-wrapper {
+    height: 300px;
+}
+
+.summary-section ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.summary-section li {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 0;
+    border-bottom: 1px solid #eaeaea;
+    font-size: 16px;
+}
+
+.summary-section li span:first-child {
+    font-weight: 500;
+}
+
+@media (max-width: 768px) {
+    .chart-section, .summary-section {
+        flex: 1 1 100%;
+    }
+
+    .chart-wrapper {
+        height: 250px;
+    }
+}
+
+
+/* -------------------------- table ------------------------- */
+
+.table-container-div
+{
+    margin: 20px;
+    margin-top: 30px;
+    display: grid;
+    grid-template-columns: 1fr; /* Single column that takes the full available width */
+    overflow-x: auto; /* Allows horizontal scrolling inside the container */
+    align-items: center;
+    justify-items: stretch;
+}

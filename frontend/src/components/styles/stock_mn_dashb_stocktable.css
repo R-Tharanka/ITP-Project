@@ -1,0 +1,116 @@
+
+
+.table-container {
+    width: 100%;
+    margin: 40px auto;
+    margin-bottom: 120px;
+    max-width: 1200px;
+    /* padding: 20px; 
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    background-color: white;*/
+  }
+  
+  /* Styling the buttons */
+  .table-actions {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 30px;
+  }
+  
+  .add-stock, .unload-stock {
+    background-color: #e7f5e7;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .unload-stock {
+    background-color: #f5e7e7;
+  }
+  
+  .add-stock:hover, .unload-stock:hover {
+    opacity: 0.9;
+  }
+  
+  /* Table styles */
+
+  .table-wrapper {
+    border: 1px solid #D0DBE7; /* Border color */
+    border-radius: 10px; /* Border radius */
+    overflow: hidden; /* Make the table fit inside the wrapper */
+  }
+
+  .stock-table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #f8fafc;
+    border-radius: 10px;
+    border: 1px solid #D0DBE7;
+    overflow: hidden; /* Ensure the border-radius affects contents */
+  }
+  
+  .stock-table thead {
+    background-color: #f8f8f8;
+  }
+  
+  .stock-table th, .stock-table td {
+    padding: 15px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+    line-height: 1.8;
+  }
+  
+  .stock-table th {
+    font-weight: bold;
+    color: #555;
+  }
+  
+  .stock-table td {
+    color: #777;
+  }
+  
+  .stock-table tr:hover {
+    background-color: #f1f1f1;
+  }
+  
+  /* Make the table responsive */
+  @media (max-width: 768px) {
+    .stock-table, .stock-table thead, .stock-table tbody, .stock-table th, .stock-table td, .stock-table tr {
+      display: block;
+    }
+  
+    .stock-table th {
+      position: absolute;
+      top: -9999px;
+      left: -9999px;
+    }
+  
+    .stock-table td {
+      position: relative;
+      padding-left: 50%;
+      white-space: normal;
+      text-align: left;
+    }
+  
+    .stock-table td:before {
+      position: absolute;
+      top: 50%;
+      left: 10px;
+      transform: translateY(-50%);
+      width: 45%;
+      white-space: nowrap;
+      font-weight: bold;
+    }
+  
+    .stock-table td:nth-of-type(1):before { content: "ID"; }
+    .stock-table td:nth-of-type(2):before { content: "Item Name"; }
+    .stock-table td:nth-of-type(3):before { content: "Type"; }
+    .stock-table td:nth-of-type(4):before { content: "Date"; }
+    .stock-table td:nth-of-type(5):before { content: "Amount"; }
+    .stock-table td:nth-of-type(6):before { content: "Worth"; }
+    .stock-table td:nth-of-type(7):before { content: "Occupied Space"; }
+  }
+  

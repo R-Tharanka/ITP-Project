@@ -1,0 +1,148 @@
+.dashboard-container {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.main-content {
+    display: flex;
+    flex-grow: 1;
+}
+
+.stockpile-section {
+    flex-grow: 1;
+    padding: 20px;
+}
+
+.tab-section {
+    display: flex;
+    justify-content: flex-start;
+    margin-bottom: 20px;
+    margin-top: 37px;
+}
+
+.tab-button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 6px;
+    background-color: #e0e0e0;
+    /* color: white; */
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-right: 10px;
+}
+
+.tab-button.active {
+    background-color: #1c4532;
+    color: white;
+}
+
+.tab-button:hover {
+    background-color: #145324;
+}
+
+.tab-content {
+    padding: 20px;
+    /* background-color: #f9f9f9; */
+    border-radius: 10px;
+}
+
+.stock-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    table-layout: fixed;
+}
+
+.stock-table th, .stock-table td {
+    padding: 10px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+.stock-table th {
+    background-color: #f2f2f2;
+    color: #333;
+}
+
+.stock-table tbody tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.stock-table tbody tr:hover {
+    background-color: #e0e0e0;
+}
+
+/* Responsive table design */
+@media (max-width: 768px) {
+    .stock-table {
+        display: block;
+        overflow-x: auto;
+        white-space: nowrap;
+        table-layout: fixed;
+    }
+
+    .stock-table th, .stock-table td {
+        text-align: left;
+        padding: 8px 5px;
+    }
+}
+
+/* Stacked table for small screens */
+@media (max-width: 600px) {
+    .stock-table,
+    .stock-table thead,
+    .stock-table tbody,
+    .stock-table th,
+    .stock-table td,
+    .stock-table tr {
+        display: block;
+    }
+
+    .stock-table tr {
+        margin-bottom: 15px;
+    }
+
+    .stock-table td {
+        text-align: right;
+        padding-left: 50%;
+        position: relative;
+    }
+
+    .stock-table td::before {
+        content: attr(data-label);
+        position: absolute;
+        left: 15px;
+        width: calc(50% - 15px);
+        text-align: left;
+        font-weight: bold;
+    }
+
+    .stock-table th {
+        display: none;
+    }
+}
+
+.gen-rep-btn-div
+{
+    display: flex;
+    margin-bottom: 120px;
+    justify-content: flex-end;
+    flex-direction: row;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.generate-report-btn {
+    background-color: #1c4532;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    margin-top: 20px;
+    cursor: pointer;
+    border-radius: 8px;
+}
+
+.generate-report-btn:hover {
+    background-color: #2f6b50;
+}
