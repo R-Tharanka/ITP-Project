@@ -1,11 +1,13 @@
 .inventory-table-container {
     margin: 60px 0;
     margin-bottom: 120px;
+    /* padding: 20px; */
   }
   
   .inventory-table-container h2 {
     font-size: 24px;
     margin-bottom: 35px;
+    text-align: start;
   }
   
   .inventory-table {
@@ -92,6 +94,7 @@
   .update-button {
     background-color: #62a098;
     color: white;
+    cursor: pointer;
   }
   
   .update-button:hover {

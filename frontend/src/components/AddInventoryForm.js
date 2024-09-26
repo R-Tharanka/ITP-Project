@@ -68,52 +68,52 @@ const AddInventoryForm = ({ showModal, onClose }) => {
                 <label className="slect-type">Select Item Types:</label>
                 <div className="select-div">
                     <div className="checkbox-item">
-                    <input 
+                    <input id="raw_mat"
                         type="checkbox" 
                         name="rawMaterial" 
                         checked={itemTypes.rawMaterial} 
                         onChange={handleCheckboxChange} 
                     />
-                    <label>Raw Material</label>
+                    <label for="raw_mat">Raw Material</label>
                     </div>
                     <div className="checkbox-item">
-                    <input 
+                    <input id="sem_finl_p"
                         type="checkbox" 
                         name="semiFinalProducts" 
                         checked={itemTypes.semiFinalProducts} 
                         onChange={handleCheckboxChange} 
                     />
-                    <label>Semi Final Products</label>
+                    <label for="sem_finl_p">Semi Final Products</label>
                     </div>
                 </div>
                 <div className="select-div">
                     <div className="checkbox-item">
-                    <input 
+                    <input id="finl_p"
                         type="checkbox" 
                         name="finalProducts" 
                         checked={itemTypes.finalProducts} 
                         onChange={handleCheckboxChange} 
                     />
-                    <label>Final Products</label>
+                    <label for="finl_p">Final Products</label>
                     </div>
                     <div className="checkbox-item">
-                    <input 
+                    <input id="return_g"
                         type="checkbox" 
                         name="returnedGoods" 
                         checked={itemTypes.returnedGoods} 
                         onChange={handleCheckboxChange} 
                     />
-                    <label>Returned Goods</label>
+                    <label for="return_g">Returned Goods</label>
                     </div>
                 </div>
                 <div className="checkbox-item select-div">
-                <input 
+                <input id="waste"
                     type="checkbox" 
                     name="wastage" 
                     checked={itemTypes.wastage} 
                     onChange={handleCheckboxChange} 
                 />
-                <label>Wastage</label>
+                <label for="waste">Wastage</label>
                 </div>
             </div>
           </div>
