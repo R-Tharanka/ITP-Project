@@ -38,21 +38,29 @@ const AddStockForm = ({ showModal, onClose }) => {
           <div className="modal">
             <h2>Add Stock</h2>
             <form onSubmit={handleSubmit}>
-              <label htmlFor="date">Date</label>
-              <input
-                type="date"
-                id="date"
-                value={date}
-                onChange={(e) => setDate(e.target.value)}
-                required
-              />
+
+              <div className="item-name-outer-div">
+                <div className="item-name-inner-div">
+                  <label htmlFor="itemName">Item Name</label>
+                  <select id="itemName" value={itemName} onChange={(e) => setItemName(e.target.value)}
+                    required >
+                      <option value="" disabled>Select Item Name</option>
+                      <option value="Turmeric">Turmeric</option>
+                      <option value="Dry Chilly">Dry Chilly</option>
+                      <option value="Ginger">Ginger</option>
+                      <option value="Pepper">Pepper</option>
+                      <option value="Garlic">Garlic</option>
+                  </select>
+                </div>
+              </div>
 
               <div className="item-type-section">
                 <label>Select Item Types:</label>
                 <div className="radio-options">
                   <label>
                     <input
-                      type="radio"
+                      type="radio" 
+                      className="radio-btn"
                       name="itemType"
                       value="Raw Material"
                       checked={itemType === 'Raw Material'}
@@ -62,7 +70,8 @@ const AddStockForm = ({ showModal, onClose }) => {
                   </label>
                   <label>
                     <input
-                      type="radio"
+                      type="radio" 
+                      className="radio-btn"
                       name="itemType"
                       value="Final Products"
                       checked={itemType === 'Final Products'}
@@ -72,7 +81,8 @@ const AddStockForm = ({ showModal, onClose }) => {
                   </label>
                   <label>
                     <input
-                      type="radio"
+                      type="radio" 
+                      className="radio-btn"
                       name="itemType"
                       value="Wastage"
                       checked={itemType === 'Wastage'}
@@ -82,7 +92,8 @@ const AddStockForm = ({ showModal, onClose }) => {
                   </label>
                   <label>
                     <input
-                      type="radio"
+                      type="radio" 
+                      className="radio-btn"
                       name="itemType"
                       value="Semi Final Products"
                       checked={itemType === 'Semi Final Products'}
@@ -92,7 +103,8 @@ const AddStockForm = ({ showModal, onClose }) => {
                   </label>
                   <label>
                     <input
-                      type="radio"
+                      type="radio" 
+                      className="radio-btn"
                       name="itemType"
                       value="Returned Goods"
                       checked={itemType === 'Returned Goods'}
@@ -102,48 +114,54 @@ const AddStockForm = ({ showModal, onClose }) => {
                   </label>
                 </div>
               </div>
+              
+              <div className="add-sections-div">
+                <div className="input_cont_div">
+                  <label htmlFor="date">Date</label>
+                  <input
+                    type="date"
+                    id="date"
+                    value={date}
+                    onChange={(e) => setDate(e.target.value)}
+                    required
+                  />
+                </div>
 
-              <label htmlFor="itemName">Item Name</label>
-              <select
-                id="itemName"
-                value={itemName}
-                onChange={(e) => setItemName(e.target.value)}
-                required
-              >
-                <option value="" disabled>Select Item Name</option>
-                <option value="Turmeric">Turmeric</option>
-                <option value="Dry Chilly">Dry Chilly</option>
-                <option value="Ginger">Ginger</option>
-                <option value="Pepper">Pepper</option>
-                <option value="Garlic">Garlic</option>
-              </select>
+                <div className="input_cont_div">
+                  <label htmlFor="amount">Amount</label>
+                  <input
+                    type="number"
+                    id="amount"
+                    value={amount}
+                    onChange={(e) => setAmount(e.target.value)}
+                    required
+                  />
+                </div>
+              </div>
 
-              <label htmlFor="amount">Amount</label>
-              <input
-                type="number"
-                id="amount"
-                value={amount}
-                onChange={(e) => setAmount(e.target.value)}
-                required
-              />
+              <div className="add-sections-div">
+                <div className="input_cont_div">
+                  <label htmlFor="worth">Worth</label>
+                  <input
+                    type="number"
+                    id="worth"
+                    value={worth}
+                    onChange={(e) => setWorth(e.target.value)}
+                    required
+                  />
+                </div>
 
-              <label htmlFor="worth">Worth</label>
-              <input
-                type="number"
-                id="worth"
-                value={worth}
-                onChange={(e) => setWorth(e.target.value)}
-                required
-              />
-
-              <label htmlFor="occupiedSpace">Occupied Space</label>
-              <input
-                type="number"
-                id="occupiedSpace"
-                value={occupiedSpace}
-                onChange={(e) => setOccupiedSpace(e.target.value)}
-                required
-              />
+                <div className="input_cont_div">
+                  <label htmlFor="occupiedSpace">Occupied Space</label>
+                  <input
+                    type="number"
+                    id="occupiedSpace"
+                    value={occupiedSpace}
+                    onChange={(e) => setOccupiedSpace(e.target.value)}
+                    required
+                  />
+                </div>
+              </div>
 
               <div className="form-actions">
                 <button type="submit" className="add-btn">Add</button>

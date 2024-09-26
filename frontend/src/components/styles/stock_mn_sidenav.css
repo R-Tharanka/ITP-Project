@@ -11,7 +11,7 @@
     border-top-right-radius: 20px;
     margin-top: 40px;
     overflow: hidden;
-    z-index: 99;
+    z-index: 10;
   }
   
   .sidebar.collapsed {

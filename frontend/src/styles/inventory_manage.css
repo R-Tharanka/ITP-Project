@@ -29,7 +29,7 @@
 
 .stockpile-search {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     flex-direction: row;
 }
 .search-Img
