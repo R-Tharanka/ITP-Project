@@ -41,72 +41,80 @@ const AddInventoryForm = ({ showModal, onClose }) => {
       <div className="modal-content">
         <h2>Add New Inventory</h2>
         <form onSubmit={handleSubmit}>
-          <div className="input-group">
-            <label>Location</label>
-            <input 
-              type="text" 
-              value={location} 
-              onChange={(e) => setLocation(e.target.value)} 
-              placeholder="Input Location" 
-              required 
-            />
-          </div>
-          <div className="input-group">
-            <label>Capacity</label>
-            <input 
-              type="number" 
-              value={capacity} 
-              onChange={(e) => setCapacity(e.target.value)} 
-              placeholder="Input Capacity" 
-              required 
-            />
+          <div className="input-div">
+            <div className="input-group">
+                <label>Location</label>
+                <input 
+                type="text" 
+                value={location} 
+                onChange={(e) => setLocation(e.target.value)} 
+                placeholder="Input Location" 
+                required 
+                />
+            </div>
+            <div className="input-group">
+                <label>Capacity</label>
+                <input 
+                type="number" 
+                value={capacity} 
+                onChange={(e) => setCapacity(e.target.value)} 
+                placeholder="Input Capacity" 
+                required 
+                />
+            </div>
           </div>
           <div className="checkbox-group">
-            <label>Select Item Types:</label>
-            <div className="checkbox-item">
-              <input 
-                type="checkbox" 
-                name="rawMaterial" 
-                checked={itemTypes.rawMaterial} 
-                onChange={handleCheckboxChange} 
-              />
-              <label>Raw Material</label>
-            </div>
-            <div className="checkbox-item">
-              <input 
-                type="checkbox" 
-                name="semiFinalProducts" 
-                checked={itemTypes.semiFinalProducts} 
-                onChange={handleCheckboxChange} 
-              />
-              <label>Semi Final Products</label>
-            </div>
-            <div className="checkbox-item">
-              <input 
-                type="checkbox" 
-                name="finalProducts" 
-                checked={itemTypes.finalProducts} 
-                onChange={handleCheckboxChange} 
-              />
-              <label>Final Products</label>
-            </div>
-            <div className="checkbox-item">
-              <input 
-                type="checkbox" 
-                name="returnedGoods" 
-                checked={itemTypes.returnedGoods} 
-                onChange={handleCheckboxChange} 
-              />
-              <label>Returned Goods</label>
-            </div>
-            <div className="checkbox-item">
-              <input 
-                type="checkbox" 
-                name="wastage" 
-                checked={itemTypes.wastage} 
-                onChange={handleCheckboxChange} 
-              />
-              <label>Wastage</label>
+            <div>
+                <label className="slect-type">Select Item Types:</label>
+                <div className="select-div">
+                    <div className="checkbox-item">
+                    <input 
+                        type="checkbox" 
+                        name="rawMaterial" 
+                        checked={itemTypes.rawMaterial} 
+                        onChange={handleCheckboxChange} 
+                    />
+                    <label>Raw Material</label>
+                    </div>
+                    <div className="checkbox-item">
+                    <input 
+                        type="checkbox" 
+                        name="semiFinalProducts" 
+                        checked={itemTypes.semiFinalProducts} 
+                        onChange={handleCheckboxChange} 
+                    />
+                    <label>Semi Final Products</label>
+                    </div>
+                </div>
+                <div className="select-div">
+                    <div className="checkbox-item">
+                    <input 
+                        type="checkbox" 
+                        name="finalProducts" 
+                        checked={itemTypes.finalProducts} 
+                        onChange={handleCheckboxChange} 
+                    />
+                    <label>Final Products</label>
+                    </div>
+                    <div className="checkbox-item">
+                    <input 
+                        type="checkbox" 
+                        name="returnedGoods" 
+                        checked={itemTypes.returnedGoods} 
+                        onChange={handleCheckboxChange} 
+                    />
+                    <label>Returned Goods</label>
+                    </div>
+                </div>
+                <div className="checkbox-item select-div">
+                <input 
+                    type="checkbox" 
+                    name="wastage" 
+                    checked={itemTypes.wastage} 
+                    onChange={handleCheckboxChange} 
+                />
+                <label>Wastage</label>
+                </div>
             </div>
           </div>
           <div className="form-actions">

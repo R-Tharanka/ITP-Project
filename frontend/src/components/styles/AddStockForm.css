@@ -70,7 +70,7 @@
     margin-bottom: 10px;
   }
   
-  input, select {
+  .item-name-outer-div select, .add-stock-form input{
     width: 100%;
     padding: 10px;
     margin-bottom: 10px;

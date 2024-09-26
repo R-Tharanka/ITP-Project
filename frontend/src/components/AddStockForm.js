@@ -37,7 +37,7 @@ const AddStockForm = ({ showModal, onClose }) => {
         <div className="modal-backdrop">
           <div className="modal">
             <h2>Add Stock</h2>
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={handleSubmit} className="add-stock-form">
 
               <div className="item-name-outer-div">
                 <div className="item-name-inner-div">
