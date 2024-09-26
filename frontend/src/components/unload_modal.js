@@ -4,7 +4,7 @@ import './styles/unload_modal.css';
 const InventoryUnloadModal = ({ item, closeModal }) => {
     // State for form data, including item type, name, amount, worth, etc.
     const [unloadData, setUnloadData] = useState({
-        itemType: 'Raw Material', // Default selection
+        itemType: item.type, // Pre-filled with the selected item type from the table
         itemName: item.name, // Pre-filled with the selected item name from the table
         amount: '',
         worth: '',
@@ -39,13 +39,14 @@ const InventoryUnloadModal = ({ item, closeModal }) => {
                 <h2>Unload Stock</h2>
 
                 {/* Item Name Selection */}
-                <div className="form-group">
-                    <div>
+                <div className="form-group item-name-div">
+                    <div className="item-name-inner-div">
                         <label>Item Name</label>
                         <select
                             name="itemName"
                             value={unloadData.itemName}
                             onChange={handleChange}
+                            disabled
                         >
                             <option value={item.name}>{item.name}</option>
                             {/* If you want to allow the user to change the item name */}
@@ -56,59 +57,65 @@ const InventoryUnloadModal = ({ item, closeModal }) => {
                 </div>
 
                 {/* Select Item Type - Radio Buttons */}
-                <div className="form-group">
+                <div className="form-group radio-group-outer-div">
                     <label>Select Item Types:</label>
                     <div className="radio-group">
                         <label>
-                            <input
+                            <input className="radio-btn"
                                 type="radio"
                                 name="itemType"
                                 value="Raw Material"
                                 checked={unloadData.itemType === 'Raw Material'}
                                 onChange={handleChange}
+                                disabled
                             />
                             Raw Material
                         </label>
                         <label>
-                            <input
+                            <input className="radio-btn"
                                 type="radio"
                                 name="itemType"
                                 value="Final Products"
                                 checked={unloadData.itemType === 'Final Products'}
                                 onChange={handleChange}
+                                disabled
                             />
                             Final Products
                         </label>
                         <label>
-                            <input
-                                type="radio"
-                                name="itemType"
-                                value="Semi Final Products"
-                                checked={unloadData.itemType === 'Semi Final Products'}
-                                onChange={handleChange}
-                            />
-                            Semi Final Products
-                        </label>
-                        <label>
-                            <input
-                                type="radio"
-                                name="itemType"
-                                value="Returned Goods"
-                                checked={unloadData.itemType === 'Returned Goods'}
-                                onChange={handleChange}
-                            />
-                            Returned Goods
-                        </label>
-                        <label>
-                            <input
+                            <input className="radio-btn"
                                 type="radio"
                                 name="itemType"
                                 value="Wastage"
                                 checked={unloadData.itemType === 'Wastage'}
                                 onChange={handleChange}
+                                disabled
                             />
                             Wastage
                         </label>
+                        <label>
+                            <input className="radio-btn"
+                                type="radio"
+                                name="itemType"
+                                value="Semi Final Products"
+                                checked={unloadData.itemType === 'Semi Final Products'}
+                                onChange={handleChange}
+                                disabled
+                            />
+                            Semi Final Products
+                        </label>
+                        <label>
+                            <input className="radio-btn"
+                                type="radio"
+                                name="itemType"
+                                value="Returned Goods"
+                                checked={unloadData.itemType === 'Returned Goods'}
+                                onChange={handleChange}
+                                disabled
+                            />
+                            Returned Goods
+                        </label>
+                        
                     </div>
                 </div>
                 
@@ -126,7 +133,7 @@ const InventoryUnloadModal = ({ item, closeModal }) => {
 
                     {/* Amount Input */}
                     <div className="form-group">
-                        <label>Amount</label>
+                        <label>Amount (kg)</label>
                         <input
                             type="number"
                             name="amount"
@@ -139,7 +146,7 @@ const InventoryUnloadModal = ({ item, closeModal }) => {
                 <div className="unloading-sections-div">
                     {/* Worth Input */}
                     <div className="form-group">
-                        <label>Worth</label>
+                        <label>Worth ($)</label>
                         <input
                             type="number"
                             name="worth"
@@ -150,7 +157,7 @@ const InventoryUnloadModal = ({ item, closeModal }) => {
 
                     {/* Occupied Space Input */}
                     <div className="form-group">
-                        <label>Occupied Space</label>
+                        <label>Occupied Space (m³)</label>
                         <input
                             type="number"
                             name="occupiedSpace"

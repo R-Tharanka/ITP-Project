@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import AddStockForm from './AddStockForm';
 import './styles/stock_mn_sidenav.css';
 
 import DashboardIcon from '../assets/img/stockpile management/icon/dashboard.png';
@@ -11,12 +12,10 @@ import ManageStockIcon from '../assets/img/stockpile management/icon/manage stoc
 import ToggleIcon from '../assets/img/stockpile management/icon/menu.png'; 
 
 const St_SideNav = ({ isCollapsed, toggleSidebar }) => {
-  // const [isCollapsed, setIsCollapsed] = useState(false);
+  
    const [activeItem, setActiveItem] = useState("Dashboard"); // Track active item
 
-  // const toggleSidebar = () => {
-  //   setIsCollapsed(!isCollapsed);
-  // };
+   const [showAddStockModal, setShowAddStockModal] = useState(false); //State to handle modal visibility
 
   return (
     <div className={isCollapsed ? "sidebar collapsed" : "sidebar"}>
@@ -46,7 +45,10 @@ const St_SideNav = ({ isCollapsed, toggleSidebar }) => {
           </Link>
         </li>
 
-        <li className={`nav-item ${activeItem === "Add Stock" ? "active" : ""}`} onClick={() => setActiveItem("Add Stock")}>
+        {/* Updated onClick event to show the modal */}
+        <li className={`nav-item ${activeItem === "Add Stock" ? "active" : ""}`} 
+            onClick={() => { setActiveItem("Add Stock"); setShowAddStockModal(true); //Open modal when Add Stock is clicked
+            }}>
           <img src={AddStockIcon} alt="Add Stock" className="icon" />
           {!isCollapsed && <span>Add Stock</span>}
         </li>
@@ -66,6 +68,13 @@ const St_SideNav = ({ isCollapsed, toggleSidebar }) => {
         </li>
 
       </ul>
+
+      {/* Modal for Adding Stock */}
+      <AddStockForm 
+        showModal={showAddStockModal} // **NEW** Pass the modal visibility state
+        onClose={() => setShowAddStockModal(false)} // **NEW** Function to close the modal
+      />
+
     </div>
   );
 };
