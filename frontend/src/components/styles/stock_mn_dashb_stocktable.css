@@ -90,7 +90,7 @@
       display: block;
     }
   
-    .stock-table th {
+    .stock-table th { /* Hide table headers */
       position: absolute;
       top: -9999px;
       left: -9999px;
@@ -121,4 +121,20 @@
     .stock-table td:nth-of-type(6):before { content: "Worth"; }
     .stock-table td:nth-of-type(7):before { content: "Occupied Space"; }
   }
+
+  @media (max-width: 576px) {
+    
+    .add-stock, .unload-stock {
+        font-size: 14px;
+        padding: 8px 15px; /* Reduce button size */
+    }
+
+    .stock-table td {
+        padding-left: 40%; /* Reduce indentation for smaller screens */
+    }
+
+    .stock-table td:before {
+        left: 5px; /* Adjust label position */
+    }
+}
   

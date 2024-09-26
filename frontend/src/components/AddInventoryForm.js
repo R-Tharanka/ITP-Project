@@ -1,0 +1,122 @@
+import React, { useState } from 'react';
+import './styles/AddInventoryForm.css';
+
+const AddInventoryForm = ({ showModal, onClose }) => {
+  const [location, setLocation] = useState('');
+  const [capacity, setCapacity] = useState('');
+  const [itemTypes, setItemTypes] = useState({
+    rawMaterial: false,
+    semiFinalProducts: false,
+    finalProducts: false,
+    returnedGoods: false,
+    wastage: false,
+  });
+
+  const handleCheckboxChange = (e) => {
+    const { name, checked } = e.target;
+    setItemTypes({ ...itemTypes, [name]: checked });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    // Submit form data (location, capacity, itemTypes) to the backend
+    const formData = {
+      location,
+      capacity,
+      itemTypes,
+    };
+
+    console.log(formData); // This will be replaced by backend submission later.
+    
+    // Close the modal after submission
+    onClose();
+  };
+
+  if (!showModal) {
+    return null; // Modal is hidden
+  }
+
+  return (
+    <div className="modal-overlay">
+      <div className="modal-content">
+        <h2>Add New Inventory</h2>
+        <form onSubmit={handleSubmit}>
+          <div className="input-group">
+            <label>Location</label>
+            <input 
+              type="text" 
+              value={location} 
+              onChange={(e) => setLocation(e.target.value)} 
+              placeholder="Input Location" 
+              required 
+            />
+          </div>
+          <div className="input-group">
+            <label>Capacity</label>
+            <input 
+              type="number" 
+              value={capacity} 
+              onChange={(e) => setCapacity(e.target.value)} 
+              placeholder="Input Capacity" 
+              required 
+            />
+          </div>
+          <div className="checkbox-group">
+            <label>Select Item Types:</label>
+            <div className="checkbox-item">
+              <input 
+                type="checkbox" 
+                name="rawMaterial" 
+                checked={itemTypes.rawMaterial} 
+                onChange={handleCheckboxChange} 
+              />
+              <label>Raw Material</label>
+            </div>
+            <div className="checkbox-item">
+              <input 
+                type="checkbox" 
+                name="semiFinalProducts" 
+                checked={itemTypes.semiFinalProducts} 
+                onChange={handleCheckboxChange} 
+              />
+              <label>Semi Final Products</label>
+            </div>
+            <div className="checkbox-item">
+              <input 
+                type="checkbox" 
+                name="finalProducts" 
+                checked={itemTypes.finalProducts} 
+                onChange={handleCheckboxChange} 
+              />
+              <label>Final Products</label>
+            </div>
+            <div className="checkbox-item">
+              <input 
+                type="checkbox" 
+                name="returnedGoods" 
+                checked={itemTypes.returnedGoods} 
+                onChange={handleCheckboxChange} 
+              />
+              <label>Returned Goods</label>
+            </div>
+            <div className="checkbox-item">
+              <input 
+                type="checkbox" 
+                name="wastage" 
+                checked={itemTypes.wastage} 
+                onChange={handleCheckboxChange} 
+              />
+              <label>Wastage</label>
+            </div>
+          </div>
+          <div className="form-actions">
+            <button type="submit" className="btn-add">Add</button>
+            <button type="button" className="btn-cancel" onClick={onClose}>Cancel</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  );
+};
+
+export default AddInventoryForm;
