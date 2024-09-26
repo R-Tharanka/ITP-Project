@@ -41,6 +41,14 @@
     border: 1px solid #D0DBE7; /* Border color */
     border-radius: 10px; /* Border radius */
     overflow: hidden; /* Make the table fit inside the wrapper */
+    overflow-x: auto;
+  }
+
+  .table-scrollable {
+    width: 100%;
+    overflow-x: auto;
+    margin-top: 20px;
+    border-radius: 10px;
   }
 
   .stock-table {

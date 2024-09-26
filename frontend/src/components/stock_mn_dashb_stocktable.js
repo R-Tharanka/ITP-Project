@@ -20,32 +20,34 @@ const St_dshb_StockTable = () => {
       </div>
 
       <div className="table-wrapper">
-        <table className="stock-table">
-            <thead>
-            <tr>
-                <th>ID</th>
-                <th>Item Name</th>
-                <th>Type</th>
-                <th>Date</th>
-                <th>Amount</th>
-                <th>Worth</th>
-                <th>Occupied Space</th>
-            </tr>
-            </thead>
-            <tbody>
-            {stocks.map((stock, index) => (
-                <tr key={index}>
-                <td>{stock.id}</td>
-                <td>{stock.name}</td>
-                <td>{stock.type}</td>
-                <td>{stock.date}</td>
-                <td>{stock.amount}</td>
-                <td>{stock.worth}</td>
-                <td>{stock.space}</td>
-                </tr>
-            ))}
-            </tbody>
-        </table>
+        <div className="table-scrollable">
+          <table className="stock-table">
+              <thead>
+              <tr>
+                  <th>ID</th>
+                  <th>Item Name</th>
+                  <th>Type</th>
+                  <th>Date</th>
+                  <th>Amount</th>
+                  <th>Worth</th>
+                  <th>Occupied Space</th>
+              </tr>
+              </thead>
+              <tbody>
+              {stocks.map((stock, index) => (
+                  <tr key={index}>
+                  <td>{stock.id}</td>
+                  <td>{stock.name}</td>
+                  <td>{stock.type}</td>
+                  <td>{stock.date}</td>
+                  <td>{stock.amount}</td>
+                  <td>{stock.worth}</td>
+                  <td>{stock.space}</td>
+                  </tr>
+              ))}
+              </tbody>
+          </table>
+        </div>
       </div>
       
     </div>

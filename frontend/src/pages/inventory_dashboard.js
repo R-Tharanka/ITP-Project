@@ -165,7 +165,10 @@ const InventoryDashboard = () => {
         </div>
       </div>
 
-      <StockMnFooter />
+      <div className={`footer-main-container ${isSidebarCollapsed ? 'collapsed' : 'expanded'}`}>
+        <StockMnFooter />
+      </div>
+
     </div>
   );
 };
