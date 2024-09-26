@@ -4,6 +4,14 @@ import './styles/UpdateInventoryForm.css';
 const UpdateInventoryForm = ({ currentItem, onUpdate, onClose }) => {
   const [updatedItem, setUpdatedItem] = useState(currentItem);
 
+  const categoryOptions = [
+    "Raw Material",
+    "Semi Final Products",
+    "Final Products",
+    "Returned Goods",
+    "Wastage"
+  ];
+
   // Handle form field changes
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -11,6 +19,21 @@ const UpdateInventoryForm = ({ currentItem, onUpdate, onClose }) => {
       ...prevItem,
       [name]: value,
     }));
+  };
+
+  // Handle category checkbox changes
+  const handleCategoryChange = (e) => {
+    const { value, checked } = e.target;
+    setUpdatedItem((prevItem) => {
+      const newCategories = checked
+        ? [...prevItem.categories, value] // Add selected category
+        : prevItem.categories.filter((category) => category !== value); // Remove unselected category
+
+      return {
+        ...prevItem,
+        categories: newCategories,
+      };
+    });
   };
 
   // Handle the form submission
@@ -25,7 +48,7 @@ const UpdateInventoryForm = ({ currentItem, onUpdate, onClose }) => {
         <div className="update-input-div">
           <label>
             Location:
-            <input
+            <input className="loc-cap"
               type="text"
               name="location"
               value={updatedItem.location}
@@ -34,22 +57,28 @@ const UpdateInventoryForm = ({ currentItem, onUpdate, onClose }) => {
           </label>
           <label>
             Capacity:
-            <input
+            <input className="loc-cap"
               type="text"
               name="capacity"
               value={updatedItem.capacity}
               onChange={handleChange}
             />
           </label>
-          <label>
-            Categories:
-            <input
-              type="text"
-              name="categories"
-              value={updatedItem.categories}
-              onChange={handleChange}
-            />
-          </label>
+          <div className="category-options">
+            <h3>Select Category Types</h3>
+            {categoryOptions.map((category) => (
+              <label key={category} className="category-label">
+                <input
+                  type="checkbox"
+                  value={category}
+                  checked={updatedItem.categories.includes(category)}
+                  onChange={handleCategoryChange}
+                />
+                {category}
+              </label>
+            ))}
+          </div>
+
         </div>
         <div className="up-btn-div">
           <button onClick={handleSubmit} className="update-button">
