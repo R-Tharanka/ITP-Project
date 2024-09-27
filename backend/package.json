@@ -10,10 +10,12 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "axios": "^1.7.7",
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
     "express": "^4.21.0",
     "mongodb": "^6.9.0",
     "mongoose": "^8.6.4"
-  }
+  },
+  "proxy": "http://localhost:5000"
 }

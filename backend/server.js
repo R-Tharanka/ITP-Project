@@ -15,7 +15,7 @@ app.use(express.json()); // Parse incoming requests with JSON payloads
 // Connect to MongoDB
 mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => console.log('MongoDB connected successfully'))
-  .catch(err => console.error('MongoDB connection failed:', err));
+  .catch((err) => console.error('MongoDB connection error:', err));
 
 // Example API Route (You can replace this with your actual routes later)
 app.get('/', (req, res) => {
@@ -27,3 +27,10 @@ const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
+
+
+
+
+
+
+
