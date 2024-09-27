@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import './styles/AddInventoryForm.css';
+import { addInventory } from '../api';
 
 const AddInventoryForm = ({ showModal, onClose }) => {
   const [location, setLocation] = useState('');
@@ -17,7 +18,7 @@ const AddInventoryForm = ({ showModal, onClose }) => {
     setItemTypes({ ...itemTypes, [name]: checked });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     // Submit form data (location, capacity, itemTypes) to the backend
     const formData = {
@@ -26,10 +27,18 @@ const AddInventoryForm = ({ showModal, onClose }) => {
       itemTypes,
     };
 
-    console.log(formData); // This will be replaced by backend submission later.
+    console.log('Submitting Form Data:', formData);
     
-    // Close the modal after submission
-    onClose();
+    try {
+      // Send form data to backend
+      const response = await addInventory(formData);
+      console.log(response);
+
+      // Close modal after successful submission
+      onClose();
+    } catch (error) {
+      console.error('Error adding inventory:', error);
+    }
   };
 
   if (!showModal) {
