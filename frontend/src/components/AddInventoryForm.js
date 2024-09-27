@@ -128,3 +128,5 @@ const AddInventoryForm = ({ showModal, onClose }) => {
 };
 
 export default AddInventoryForm;
+
+
