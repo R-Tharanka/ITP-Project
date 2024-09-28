@@ -3,6 +3,8 @@ import './styles/stock_mn_im_inventorytable.css';
 import UpdateInventoryForm from './UpdateInventoryForm';
 import DeleteInventory from './DeleteInventory';
 
+import { deleteInventoryItem } from '../api';
+
 const ST_InventoryTable = ({ stockpileData }) => {
 
   const [isPopupOpen, setIsPopupOpen] = useState(false);
@@ -12,7 +14,10 @@ const ST_InventoryTable = ({ stockpileData }) => {
 
   // Function to open popup with the current item details
   const openPopup = (item) => {
-    setCurrentItem({ ...item });
+    setCurrentItem({
+      ...item,
+      categories: item.categories || [], // Ensure categories is always an array
+    });
     setIsPopupOpen(true);
   };
 
@@ -32,14 +37,28 @@ const ST_InventoryTable = ({ stockpileData }) => {
   };
 
   // Function to handle remove action
-  const handleRemove = (itemId) => {
-    const updatedData = inventoryData.filter(item => item.id !== itemId);
-    setInventoryData(updatedData);
-    setIsRemovePopupOpen(false);
+  const handleRemove = async () => {
+    if (currentItem && currentItem._id) {
+      try {
 
-    // Once backend is done, replace this with actual API call
-    // e.g., fetch(`/api/delete/${itemId}`, { method: 'DELETE' })
+        console.log(`Attempting to delete item with ID: ${currentItem._id}`);
+        // Make API call to delete item using currentItem._id
+        await deleteInventoryItem(currentItem._id);
+        console.log(`Successfully deleted item with ID: ${currentItem._id}`);
+  
+        // Remove item from state
+        const updatedData = inventoryData.filter(item => item._id !== currentItem._id);
+        setInventoryData(updatedData);
+  
+        // Close the remove popup
+        setIsRemovePopupOpen(false);
+      } catch (error) {
+        console.error('Error deleting item:', error);
+        // Optionally show an error message to the user
+      }
+    }
   };
+  
 
   return (
     <div className="inventory-table-container">
@@ -56,23 +75,29 @@ const ST_InventoryTable = ({ stockpileData }) => {
           </tr>
         </thead>
         <tbody>
-          {stockpileData.map((item, index) => (
-            <tr key={index}>
-              <td>{item.id}</td>
-              <td>{item.location}</td>
-              <td>{item.capacity}</td>
-              <td>{item.categories}</td>
-              <td>
-                <span className={`status-badge ${item.status === 'In Stock' ? 'in-stock' : 'out-of-stock'}`}>
-                  {item.status}
-                </span>
-              </td>
-              <td className="action-buttons">
-                <button className="update-button" onClick={() => openPopup(item)}>Update</button>
-                <button className="remove-button" onClick={() => openRemovePopup(item)}>Remove</button>
-              </td>
-            </tr>
-          ))}
+          {stockpileData.map((item, index) => {
+            const selectedItemTypes = Object.keys(item.itemTypes)
+              .filter((key) => item.itemTypes[key]) // Get the keys where the value is true
+              .map((key) => key.replace(/([A-Z])/g, ' $1').trim()); // Convert camelCase to normal text
+
+            return (
+              <tr key={index}>
+                <td>{item.Id}</td>
+                <td>{item.location}</td>
+                <td>{item.capacity}</td>
+                <td>{selectedItemTypes.length > 0 ? selectedItemTypes.join(', ') : 'No Categories Selected'}</td>
+                <td>
+                  <span className={`status-badge ${item.status === 'In Stock' ? 'in-stock' : 'out-of-stock'}`}>
+                    {item.status}
+                  </span>
+                </td>
+                <td className="action-buttons">
+                  <button className="update-button" onClick={() => openPopup(item)}>Update</button>
+                  <button className="remove-button" onClick={() => openRemovePopup(item)}>Remove</button>
+                </td>
+              </tr>
+            );
+          })}
         </tbody>
       </table>
 
@@ -85,7 +110,7 @@ const ST_InventoryTable = ({ stockpileData }) => {
         />
       )}
 
-{isRemovePopupOpen && (
+      {isRemovePopupOpen && (
         <DeleteInventory
           currentItem={currentItem}
           onDelete={handleRemove}

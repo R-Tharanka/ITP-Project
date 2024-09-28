@@ -1,5 +1,6 @@
 
 import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 
 import StockMnHeader from '../components/stock_mn_header';
 import StockMnFooter from '../components/stock_mn_footer';
@@ -17,35 +18,50 @@ const InventoryManage = () => {
         setIsSidebarCollapsed(!isSidebarCollapsed);
     };
 
+    const [inventoryData, setInventoryData] = useState([]); // State for inventory data
+
     // State for dynamic data  -----------------------------------------------
-    const [totalStockpiles, setTotalStockpiles] = useState(0);
+    const [totalInventories, settotalInventories] = useState(0);
     const [inStock, setInStock] = useState(0);
     const [outOfStock, setOutOfStock] = useState(0);
 
-    // Simulate fetching data from the backend (replace this with actual fetch later)
+    // fetching data from the backend
     useEffect(() => {
         // Simulating data fetching, replace with backend call
-        const fetchData = () => {
-            // Replace these numbers with actual data from the backend
-            const fetchedTotalStockpiles = 6;
-            const fetchedInStock = 4;
-            const fetchedOutOfStock = 2;
+        // const fetchData = () => {
+        //     // Replace these numbers with actual data from the backend
+        //     const fetchedtotalInventories = 6;
+        //     const fetchedInStock = 4;
+        //     const fetchedOutOfStock = 2;
 
-            setTotalStockpiles(fetchedTotalStockpiles);
-            setInStock(fetchedInStock);
-            setOutOfStock(fetchedOutOfStock);
+        //     settotalInventories(fetchedtotalInventories);
+        //     setInStock(fetchedInStock);
+        //     setOutOfStock(fetchedOutOfStock);
+        // };
+
+        // fetchData();
+
+        const fetchInventoryData = async () => {
+            try {
+                const response = await axios.get('http://localhost:5000/api/inventory'); //URL to match  API
+                const fetchedData = response.data; // Set fetched data
+                setInventoryData(response.data); 
+
+                // Calculate total inventories, in stock, and out of stock
+                const totalInventoriesCount = fetchedData.length;
+
+                // Update state with calculated values
+                setInventoryData(fetchedData); 
+                settotalInventories(totalInventoriesCount);
+
+            } catch (error) {
+                console.error('Error fetching inventory data:', error);
+            }
         };
-
-        fetchData();
-    }, []); // Empty dependency array to run once on component mount ----------------------------
-
-    const stockpileData = [
-        { id: 'A3S4', location: 'Malabe', capacity: 50, categories: 'Raw Material, Final products, Wastage, Returned Goods', status: 'In Stock' },
-        { id: 'B2G8', location: 'Malabe', capacity: 30, categories: 'Raw Material, Final products, Wastage, Returned Goods', status: 'Out of Stock' },
-        { id: 'A3S4', location: 'Malabe', capacity: 50, categories: 'Raw Material, Final products, Wastage, Returned Goods', status: 'In Stock' },{ id: 'B2G8', location: 'Malabe', capacity: 30, categories: 'Raw Material, Final products, Wastage, Returned Goods', status: 'Out of Stock' },
-        { id: 'A3S4', location: 'Malabe', capacity: 50, categories: 'Raw Material, Final products, Wastage, Returned Goods', status: 'In Stock' },
-      
-      ];
+    
+        fetchInventoryData();
+        
+    }, []); // run  on component mount ----------------------------
 
     return (
     <div className="dashboard-container">
@@ -81,8 +97,8 @@ const InventoryManage = () => {
              {/* Stockpile Summary Cards */}
             <div className="stockpile-summary">
                 <div className="summary-card">
-                    <p>Total Stockpiles</p>
-                    <h2>{totalStockpiles}</h2>
+                    <p>Total Inventories</p>
+                    <h2>{totalInventories}</h2>
                 </div>
                 <div className="summary-card">
                     <p>In Stock</p>
@@ -94,7 +110,7 @@ const InventoryManage = () => {
                 </div>
             </div>
 
-            <StockMnInventoryTable  stockpileData={stockpileData}/>
+            <StockMnInventoryTable  stockpileData={inventoryData}/>
 
         </div>
       </div>

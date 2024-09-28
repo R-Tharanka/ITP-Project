@@ -3,6 +3,7 @@ import './styles/AddInventoryForm.css';
 import { addInventory } from '../api';
 
 const AddInventoryForm = ({ showModal, onClose }) => {
+  const [Id, setId] = useState('');
   const [location, setLocation] = useState('');
   const [capacity, setCapacity] = useState('');
   const [itemTypes, setItemTypes] = useState({
@@ -22,6 +23,7 @@ const AddInventoryForm = ({ showModal, onClose }) => {
     e.preventDefault();
     // Submit form data (location, capacity, itemTypes) to the backend
     const formData = {
+      Id,
       location,
       capacity,
       itemTypes,
@@ -51,6 +53,16 @@ const AddInventoryForm = ({ showModal, onClose }) => {
         <h2>Add New Inventory</h2>
         <form onSubmit={handleSubmit}>
           <div className="input-div">
+          <div className="input-group">
+                <label>ID</label>
+                <input 
+                type="text" 
+                value={Id} 
+                onChange={(e) => setId(e.target.value)} 
+                placeholder="Input Inventory Id" 
+                required 
+                />
+            </div>
             <div className="input-group">
                 <label>Location</label>
                 <input 
