@@ -6,7 +6,7 @@ const Inventory = require('../models/Inventory'); //path to model
 // Route to handle adding inventory
 router.post('/add', async (req, res) => {
 
-    console.log('Request Body:', req.body); // Log the incoming request body
+  console.log('Request Body:', req.body); // Log the incoming request body
 
   try {
     const {Id, location, capacity, itemTypes } = req.body;

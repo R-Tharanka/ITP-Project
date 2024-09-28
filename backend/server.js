@@ -21,7 +21,12 @@ mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopol
 
 // API route to add inventory
 const inventoryRoutes = require('./routes/inventoryRoutes');
-app.use('/api/inventory', inventoryRoutes); // This makes the route available at /api/inventory
+app.use('/api/inventory', inventoryRoutes);// This makes the route available at /api/inventory
+
+
+// API route to add stock
+const stockRoutes = require('./routes/loadStockRoutes'); // Add stock routes
+app.use('/api/stock', stockRoutes); // This makes the route available at /api/stock
 
 // Start the server
 const PORT = process.env.PORT || 5000;

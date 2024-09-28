@@ -70,7 +70,7 @@
     margin-bottom: 10px;
   }
   
-  .item-name-outer-div select, .add-stock-form input{
+  .item-name-outer-div select, .add-stock-form input, .input_cont_div select{
     width: 100%;
     padding: 10px;
     margin-bottom: 10px;
@@ -113,6 +113,10 @@
 
 .input_cont_div input{
   width: 160px;
+}
+
+.input_cont_div select{
+  width: 182px;
 }
 
 .add-sections-div {

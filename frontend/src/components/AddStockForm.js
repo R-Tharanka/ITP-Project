@@ -1,21 +1,25 @@
 import React, { useState } from 'react';
+import axios from 'axios';
+import { addStock } from '../api';
 import './styles/AddStockForm.css';
 
 const AddStockForm = ({ showModal, onClose }) => {
   // State variables to manage form data
-  const [itemType, setItemType] = useState('Raw Material');
+  const [itemType, setItemType] = useState('');
+  const [sku, setSku] = useState('');
   const [itemName, setItemName] = useState('');
   const [amount, setAmount] = useState('');
   const [worth, setWorth] = useState('');
   const [occupiedSpace, setOccupiedSpace] = useState('');
-  const [date, setDate] = useState(new Date().toISOString().substr(0, 10));
+  const [date, setDate] = useState(new Date().toISOString().slice(0, 10));
 
   // Handle form submission
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     const formData = {
       itemType,
+      sku,
       itemName,
       amount: parseFloat(amount),
       worth: parseFloat(worth),
@@ -25,10 +29,23 @@ const AddStockForm = ({ showModal, onClose }) => {
 
     console.log("Form Data Submitted: ", formData);
 
-    // Add the logic to send this data to the backend when available
+    try {
+      const response = await addStock(formData); // Send data to the backend
+      console.log('Stock added successfully:', response);
 
-    // After form submission, close the modal
-    onClose();
+      // Optionally, you can reset the form after submission
+      // setItemType('Raw Material');
+      // setItemName('');
+      // setAmount('');
+      // setWorth('');
+      // setOccupiedSpace('');
+      // setDate(new Date().toISOString().slice(0, 10));
+
+      // Close the modal
+      onClose();
+    } catch (error) {
+      console.error('Failed to add stock:', error);
+    }
   };
 
   return (
@@ -39,18 +56,29 @@ const AddStockForm = ({ showModal, onClose }) => {
             <h2>Add Stock</h2>
             <form onSubmit={handleSubmit} className="add-stock-form">
 
-              <div className="item-name-outer-div">
-                <div className="item-name-inner-div">
-                  <label htmlFor="itemName">Item Name</label>
-                  <select id="itemName" value={itemName} onChange={(e) => setItemName(e.target.value)}
-                    required >
-                      <option value="" disabled>Select Item Name</option>
-                      <option value="Turmeric">Turmeric</option>
-                      <option value="Dry Chilly">Dry Chilly</option>
-                      <option value="Ginger">Ginger</option>
-                      <option value="Pepper">Pepper</option>
-                      <option value="Garlic">Garlic</option>
-                  </select>
+              <div className="add-sections-div">
+                <div className="input_cont_div">
+                    <label htmlFor="itemName">Item Name</label>
+                    <select id="itemName" value={itemName} onChange={(e) => setItemName(e.target.value)}
+                        required >
+                        <option value="" disabled>Select Item Name</option>
+                        <option value="Turmeric">Turmeric</option>
+                        <option value="Dry Chilly">Dry Chilly</option>
+                        <option value="Ginger">Ginger</option>
+                        <option value="Pepper">Pepper</option>
+                        <option value="Garlic">Garlic</option>
+                    </select>
+                </div>
+
+                <div className="input_cont_div">
+                  <label htmlFor="sku" title="Stock Keeping Unit">SKU</label>
+                  <input
+                    type="text"
+                    id="sku"
+                    value={sku}
+                    onChange={(e) => setSku(e.target.value)}
+                    required
+                  />
                 </div>
               </div>
 
