@@ -18,6 +18,13 @@ const InventoryManage = () => {
         setIsSidebarCollapsed(!isSidebarCollapsed);
     };
 
+    //-------------search--------------
+    const [searchQuery, setSearchQuery] = useState(''); // To hold the search input value
+    const handleSearchChange = (event) => {
+        setSearchQuery(event.target.value); // Update the search query
+    };
+    
+
     const [inventoryData, setInventoryData] = useState([]); // State for inventory data
 
     // State for dynamic data  -----------------------------------------------
@@ -61,7 +68,24 @@ const InventoryManage = () => {
     
         fetchInventoryData();
         
-    }, []); // run  on component mount ----------------------------
+    }, []);
+
+    // console.log(inventoryData);
+
+    // Filter inventory data based on search query
+    const filteredInventory = inventoryData.filter(item => {
+        const selectedItemTypes = Object.keys(item.itemTypes || {})
+            .filter(key => item.itemTypes[key]) // Get the keys where the value is true
+            .map(key => key.replace(/([A-Z])/g, ' $1').trim()); // Convert camelCase to normal text
+    
+        return (
+            item.Id.toLowerCase().includes(searchQuery.toLowerCase()) || 
+            item.location.toLowerCase().includes(searchQuery.toLowerCase()) || 
+            item.capacity.toString().toLowerCase().includes(searchQuery.toLowerCase()) || // Convert capacity to string for searching
+            selectedItemTypes.join(', ').toLowerCase().includes(searchQuery.toLowerCase()) // Search in selectedItemTypes
+        );
+    });
+    
 
     return (
     <div className="dashboard-container">
@@ -89,9 +113,12 @@ const InventoryManage = () => {
                         type="text"
                         className="search-input"
                         placeholder="Search"
+                        value={searchQuery}
+                        onChange={handleSearchChange}
                     />
                     <img src={searchImg} alt="search-icon" className="search-Img"/>
                 </div>
+
             </div>
 
              {/* Stockpile Summary Cards */}
@@ -110,7 +137,7 @@ const InventoryManage = () => {
                 </div>
             </div>
 
-            <StockMnInventoryTable  stockpileData={inventoryData}/>
+            <StockMnInventoryTable  stockpileData={filteredInventory}/>
 
         </div>
       </div>

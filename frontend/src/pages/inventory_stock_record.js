@@ -36,6 +36,7 @@ const InventoryStockRecord = () => {
         const fetchStocks = async () => {
             try {
                 const response = await axios.get('http://localhost:5000/api/stock');  // API endpoint
+                console.log("Fetched data:", response.data);
                 setLoadingData(response.data);  //response.data contains stock records
             } catch (error) {
                 console.error("Error fetching stock data:", error);
@@ -66,6 +67,8 @@ const InventoryStockRecord = () => {
                     item.occupiedSpace
                 ])
             ];
+
+            console.log("Data being processed for CSV:", data);
     
             const csvContent = "data:text/csv;charset=utf-8," + csvData.map(e => e.join(",")).join("\n");
             const encodedUri = encodeURI(csvContent);

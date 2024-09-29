@@ -116,6 +116,15 @@
     text-overflow: ellipsis; /* Truncate content if it overflows */
   }
   
+  .no-data-message-row{
+    height: 50px;
+  }
+
+  .inventory-table .no-data-message {
+    font-size: 15px;
+    text-align: center;
+}
+
   /* Responsive Design */
   @media (max-width: 1200px) {
     .inventory-table th, .inventory-table td {

@@ -75,29 +75,37 @@ const ST_InventoryTable = ({ stockpileData }) => {
           </tr>
         </thead>
         <tbody>
-          {stockpileData.map((item, index) => {
-            const selectedItemTypes = Object.keys(item.itemTypes)
-              .filter((key) => item.itemTypes[key]) // Get the keys where the value is true
-              .map((key) => key.replace(/([A-Z])/g, ' $1').trim()); // Convert camelCase to normal text
-
-            return (
-              <tr key={index}>
-                <td>{item.Id}</td>
-                <td>{item.location}</td>
-                <td>{item.capacity}</td>
-                <td>{selectedItemTypes.length > 0 ? selectedItemTypes.join(', ') : 'No Categories Selected'}</td>
-                <td>
-                  <span className={`status-badge ${item.status === 'In Stock' ? 'in-stock' : 'out-of-stock'}`}>
-                    {item.status}
-                  </span>
-                </td>
-                <td className="action-buttons">
-                  <button className="update-button" onClick={() => openPopup(item)}>Update</button>
-                  <button className="remove-button" onClick={() => openRemovePopup(item)}>Remove</button>
-                </td>
-              </tr>
-            );
-          })}
+          {stockpileData.length > 0 ? (
+            stockpileData.map((item, index) => {
+              const selectedItemTypes = Object.keys(item.itemTypes)
+                .filter((key) => item.itemTypes[key]) // Get the keys where the value is true
+                .map((key) => key.replace(/([A-Z])/g, ' $1').trim()); // Convert camelCase to normal text
+  
+              return (
+                <tr key={index}>
+                  <td>{item.Id}</td>
+                  <td>{item.location}</td>
+                  <td>{item.capacity}</td>
+                  <td>{selectedItemTypes.length > 0 ? selectedItemTypes.join(', ') : 'No Categories Selected'}</td>
+                  <td>
+                    <span className={`status-badge ${item.status === 'In Stock' ? 'in-stock' : 'out-of-stock'}`}>
+                      {item.status}
+                    </span>
+                  </td>
+                  <td className="action-buttons">
+                    <button className="update-button" onClick={() => openPopup(item)}>Update</button>
+                    <button className="remove-button" onClick={() => openRemovePopup(item)}>Remove</button>
+                  </td>
+                </tr>
+              );
+            })
+            ) : (
+            <tr className="no-data-message-row">
+              <td colSpan="6" className="no-data-message">
+                No matching records found.
+              </td>
+            </tr>
+          )}
         </tbody>
       </table>
 

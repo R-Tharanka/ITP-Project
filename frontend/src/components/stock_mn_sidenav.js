@@ -29,19 +29,19 @@ const St_SideNav = ({ isCollapsed, toggleSidebar }) => {
 
       <ul className="nav-items">
 
-        <li className={`nav-item ${activeItem === "Dashboard" ? "active" : ""}`} onClick={() => setActiveItem("Dashboard")}>
+        <li className={`nav-item ${activeItem === "Dashboard" ? "active" : ""}`} onClick={() => setActiveItem("Dashboard")} title="Dashboard">
           <Link to="/inventory">
             <img src={DashboardIcon} alt="Dashboard" className="icon" />
             {!isCollapsed && <span>Dashboard</span>}
           </Link>
         </li>
 
-        <li className={`nav-item ${activeItem === "Add Inventory" ? "active" : ""}`} onClick={() => {setActiveItem("Add Inventory"); setShowAddInventoryModal(true);}}>
+        <li className={`nav-item ${activeItem === "Add Inventory" ? "active" : ""}`} onClick={() => {setActiveItem("Add Inventory"); setShowAddInventoryModal(true);}} title="Add Inventory">
           <img src={AddStockpileIcon} alt="Add Inventory" className="icon" />
           {!isCollapsed && <span>Add Inventory</span>}
         </li>
 
-        <li className={`nav-item ${activeItem === "Manage Inventory" ? "active" : ""}`} onClick={() => setActiveItem("Manage Inventory")}>
+        <li className={`nav-item ${activeItem === "Manage Inventory" ? "active" : ""}`} onClick={() => setActiveItem("Manage Inventory")} title="Manage Inventory">
           <Link to="/inventory_manage">
             <img src={ManageStockpileIcon} alt="Manage Inventory" className="icon" />
             {!isCollapsed && <span>Manage Inventory</span>}
@@ -51,19 +51,19 @@ const St_SideNav = ({ isCollapsed, toggleSidebar }) => {
         {/* Updated onClick event to show the modal */}
         <li className={`nav-item ${activeItem === "Add Stock" ? "active" : ""}`} 
             onClick={() => { setActiveItem("Add Stock"); setShowAddStockModal(true); //Open modal when Add Stock is clicked
-            }}>
+            }} title="Add Stock">
           <img src={AddStockIcon} alt="Add Stock" className="icon" />
           {!isCollapsed && <span>Add Stock</span>}
         </li>
 
-        <li className={`nav-item ${activeItem === "Stock Record" ? "active" : ""}`} onClick={() => setActiveItem("Stock Record")}>
+        <li className={`nav-item ${activeItem === "Stock Record" ? "active" : ""}`} onClick={() => setActiveItem("Stock Record")} title="Stock Record">
           <Link to="/stock_record">
             <img src={StockRecordIcon} alt="Stock Record" className="icon" />
             {!isCollapsed && <span>Stock Record</span>}
           </Link>
         </li>
 
-        <li className={`nav-item ${activeItem === "Manage Stock" ? "active" : ""}`} onClick={() => setActiveItem("Manage Stock")}>
+        <li className={`nav-item ${activeItem === "Manage Stock" ? "active" : ""}`} onClick={() => setActiveItem("Manage Stock")} title="Manage Stock">
           <Link to="/stock_manage">
             <img src={ManageStockIcon} alt="Manage Stock" className="icon" />
             {!isCollapsed && <span>Manage Stock</span>}

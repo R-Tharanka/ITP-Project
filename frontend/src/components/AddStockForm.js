@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { addStock } from '../api';
 import './styles/AddStockForm.css';
@@ -12,6 +12,38 @@ const AddStockForm = ({ showModal, onClose }) => {
   const [worth, setWorth] = useState('');
   const [occupiedSpace, setOccupiedSpace] = useState('');
   const [date, setDate] = useState(new Date().toISOString().slice(0, 10));
+
+  // Mappings for item names and types to abbreviations
+  const itemNameMap = {
+    Turmeric: 'TM',
+    'Dry Chilly': 'DC',
+    Ginger: 'GN',
+    Pepper: 'PP',
+    Garlic: 'GR',
+  };
+
+  const itemTypeMap = {
+    'Raw Material': 'RM',
+    'Final Products': 'FP',
+    'Wastage' : 'WT',
+    'Semi Final Products': 'SF',
+    'Returned Goods': 'RG',
+  };
+  
+  // Function to generate SKU
+  const generateSKU = (name, type) => {
+    const nameAbbreviation = itemNameMap[name] || '';
+    const typeAbbreviation = itemTypeMap[type] || '';
+    return `#${nameAbbreviation}-${typeAbbreviation}`;
+  };
+
+  // Effect to update SKU whenever itemName or itemType changes
+  useEffect(() => {
+    if (itemName && itemType) {
+      const newSKU = generateSKU(itemName, itemType);
+      setSku(newSKU);
+    }
+  }, [itemName, itemType]);
 
   // Handle form submission
   const handleSubmit = async (e) => {
@@ -77,7 +109,7 @@ const AddStockForm = ({ showModal, onClose }) => {
                     id="sku"
                     value={sku}
                     onChange={(e) => setSku(e.target.value)}
-                    required
+                    required readOnly
                   />
                 </div>
               </div>
@@ -156,7 +188,7 @@ const AddStockForm = ({ showModal, onClose }) => {
                 </div>
 
                 <div className="input_cont_div">
-                  <label htmlFor="amount">Amount</label>
+                  <label htmlFor="amount">Amount (kg)</label>
                   <input
                     type="number"
                     id="amount"
@@ -169,7 +201,7 @@ const AddStockForm = ({ showModal, onClose }) => {
 
               <div className="add-sections-div">
                 <div className="input_cont_div">
-                  <label htmlFor="worth">Worth</label>
+                  <label htmlFor="worth">Worth ($)</label>
                   <input
                     type="number"
                     id="worth"
@@ -180,7 +212,7 @@ const AddStockForm = ({ showModal, onClose }) => {
                 </div>
 
                 <div className="input_cont_div">
-                  <label htmlFor="occupiedSpace">Occupied Space</label>
+                  <label htmlFor="occupiedSpace">Occupied Space (m³)</label>
                   <input
                     type="number"
                     id="occupiedSpace"
