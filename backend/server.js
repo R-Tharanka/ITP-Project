@@ -28,6 +28,14 @@ app.use('/api/inventory', inventoryRoutes);// This makes the route available at 
 const stockRoutes = require('./routes/loadStockRoutes'); // Add stock routes
 app.use('/api/stock', stockRoutes); // This makes the route available at /api/stock
 
+// API route to view loadstock
+const loadStockRoutes = require('./routes/loadStockRoutes'); // Adjust if necessary
+app.use('/api', loadStockRoutes);
+
+// API route to add unload stock
+const unloadStockRoutes = require('./routes/unload_stockRoutes');
+app.use('/api/unload_stocks', unloadStockRoutes);
+
 // Start the server
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {

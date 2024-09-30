@@ -1,16 +1,35 @@
 import React, { useState } from 'react';
+import axios from 'axios';
 import './styles/unload_modal.css'; 
 
 const InventoryUnloadModal = ({ item, closeModal }) => {
     // State for form data, including item type, name, amount, worth, etc.
     const [unloadData, setUnloadData] = useState({
-        itemType: item.type, // Pre-filled with the selected item type from the table
-        itemName: item.name, // Pre-filled with the selected item name from the table
+        itemType: item.itemType, // Pre-filled with the selected item type from the table
+        itemName: item.itemName, // Pre-filled with the selected item name from the table
+        sku: item.sku,
         amount: '',
         worth: '',
         occupiedSpace: '',
         date: new Date().toISOString().split('T')[0], // Default to today’s date
     });
+
+    console.log(item.type);
+
+    // Prevent non-numeric characters except "." in the capacity input field
+    const handleCapacityKeyDown = (e) => {
+        const allowedKeys = ['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight', 'Tab'];
+
+        // Allow only numbers, dot, and essential keys
+        if (!/[0-9.]$/.test(e.key) && !allowedKeys.includes(e.key)) {
+        e.preventDefault();
+        }
+
+        // // Prevent multiple dots
+        // if (e.key === '.' && occupiedSpace.includes('.')) {
+        // e.preventDefault();
+        // }
+    };
 
     // Handle form changes to update the state for each input
     const handleChange = (e) => {
@@ -22,15 +41,23 @@ const InventoryUnloadModal = ({ item, closeModal }) => {
     };
 
     // Function to handle form submission for unloading stock
-    const handleUnload = () => {
-        // Perform the backend call to add to the unloading table
-        // Also update the inventory status table accordingly
+    const handleUnload = async () => {
+        try {
+            // Make a POST request to submit unload data
+            const response = await axios.post('http://localhost:5000/api/unload_stocks/unload', unloadData);
+            console.log('Unload successful: ', response.data);
 
-        console.log('Unload Data: ', unloadData);
+            // Close the modal after submission
+            closeModal();
+        } catch (error) {
+            console.error('Error unloading stock: ', error);
 
-        // Call the backend logic here once it's complete
-
-        closeModal(); // Close the modal after submission
+            if (error.response) {
+                alert(error.response.data.message);  // Display the error message to the user
+            } else {
+                alert('Error unloading stock');
+            }
+        }
     };
 
     return (
@@ -39,20 +66,34 @@ const InventoryUnloadModal = ({ item, closeModal }) => {
                 <h2>Unload Stock</h2>
 
                 {/* Item Name Selection */}
-                <div className="form-group item-name-div">
-                    <div className="item-name-inner-div">
+                <div className="unloading-sections-div">
+                    {/* Date Selection */}
+                    <div className="form-group">
                         <label>Item Name</label>
                         <select
                             name="itemName"
                             value={unloadData.itemName}
                             onChange={handleChange}
-                            disabled
+                            readOnly
                         >
-                            <option value={item.name}>{item.name}</option>
-                            {/* If you want to allow the user to change the item name */}
-                            <option value="Item 2">Item 2</option>
-                            <option value="Item 3">Item 3</option>
+                            <option value={item.itemName}>{item.itemName}</option>
+                            {/* If want to allow the user to change the item name */}
+                            {/* <option value="Ginger">Ginger</option>
+                            <option value="Pepper">Pepper</option>
+                            <option value="Garlic">Garlic</option> */}
                         </select>
+                    </div>
+
+                    {/* Amount Input */}
+                    <div className="form-group">
+                        <label htmlFor="sku" title="Stock Keeping Unit">SKU</label>
+                        <input
+                            type="text"
+                            id="sku"
+                            value={unloadData.sku}
+                            onChange={handleChange}
+                            required readOnly
+                        />
                     </div>
                 </div>
 
@@ -67,7 +108,7 @@ const InventoryUnloadModal = ({ item, closeModal }) => {
                                 value="Raw Material"
                                 checked={unloadData.itemType === 'Raw Material'}
                                 onChange={handleChange}
-                                disabled
+                                disabled={true}
                             />
                             Raw Material
                         </label>
@@ -78,7 +119,7 @@ const InventoryUnloadModal = ({ item, closeModal }) => {
                                 value="Final Products"
                                 checked={unloadData.itemType === 'Final Products'}
                                 onChange={handleChange}
-                                disabled
+                                disabled={true}
                             />
                             Final Products
                         </label>
@@ -89,7 +130,7 @@ const InventoryUnloadModal = ({ item, closeModal }) => {
                                 value="Wastage"
                                 checked={unloadData.itemType === 'Wastage'}
                                 onChange={handleChange}
-                                disabled
+                                disabled={true}
                             />
                             Wastage
                         </label>
@@ -100,7 +141,7 @@ const InventoryUnloadModal = ({ item, closeModal }) => {
                                 value="Semi Final Products"
                                 checked={unloadData.itemType === 'Semi Final Products'}
                                 onChange={handleChange}
-                                disabled
+                                disabled={true}
                             />
                             Semi Final Products
                         </label>
@@ -111,14 +152,13 @@ const InventoryUnloadModal = ({ item, closeModal }) => {
                                 value="Returned Goods"
                                 checked={unloadData.itemType === 'Returned Goods'}
                                 onChange={handleChange}
-                                disabled
+                                disabled={true}
                             />
                             Returned Goods
                         </label>
-                        
                     </div>
                 </div>
-                
+
                 <div className="unloading-sections-div">
                     {/* Date Selection */}
                     <div className="form-group">
@@ -127,6 +167,7 @@ const InventoryUnloadModal = ({ item, closeModal }) => {
                             type="date"
                             name="date"
                             value={unloadData.date}
+                            max={new Date().toISOString().slice(0, 10)}
                             onChange={handleChange}
                         />
                     </div>
@@ -137,8 +178,10 @@ const InventoryUnloadModal = ({ item, closeModal }) => {
                         <input
                             type="number"
                             name="amount"
+                            min="0"
                             value={unloadData.amount}
                             onChange={handleChange}
+                            onKeyDown={handleCapacityKeyDown}
                         />
                     </div>
                 </div>
@@ -150,8 +193,10 @@ const InventoryUnloadModal = ({ item, closeModal }) => {
                         <input
                             type="number"
                             name="worth"
+                            min="0"
                             value={unloadData.worth}
                             onChange={handleChange}
+                            onKeyDown={handleCapacityKeyDown}
                         />
                     </div>
 
@@ -161,8 +206,10 @@ const InventoryUnloadModal = ({ item, closeModal }) => {
                         <input
                             type="number"
                             name="occupiedSpace"
+                            min="0"
                             value={unloadData.occupiedSpace}
                             onChange={handleChange}
+                            onKeyDown={handleCapacityKeyDown}
                         />
                     </div>
                 </div>

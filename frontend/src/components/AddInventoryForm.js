@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './styles/AddInventoryForm.css';
 import { addInventory } from '../api';
 
@@ -14,13 +14,90 @@ const AddInventoryForm = ({ showModal, onClose }) => {
     wastage: false,
   });
 
+  const [idError, setIdError] = useState('');    // Validation Error for ID
+  const [capacityError, setCapacityError] = useState(''); // Validation Error for Capacity
+  const [isFormValid, setIsFormValid] = useState(false); // Track form validity
+
   const handleCheckboxChange = (e) => {
     const { name, checked } = e.target;
     setItemTypes({ ...itemTypes, [name]: checked });
   };
 
+  // Validate ID in real-time ------
+  const handleIdChange = (e) => {
+    const value = e.target.value;
+    const idPattern = /^#I\d{3}$/; // ID must be #I followed by 3 digits
+
+    if (value === '' || idPattern.test(value)) {
+      setIdError(''); // Clear error if valid
+    } else {
+      setIdError('ID must be in format #I followed by 3 digits (e.g., #I001)');
+    }
+
+    setId(value);  // Set the updated value to the state
+  };
+
+  // Handle Capacity input, only allow numbers and a single dot
+  const handleCapacityChange = (e) => {
+    const value = e.target.value;
+    if (value === '' || /^[0-9]*\.?[0-9]*$/.test(value)) {   // Allow only numbers and "."
+      setCapacity(value);  // Set value in the state
+      if (parseFloat(value) < 0) {   // Check if the value is negative
+        setCapacityError('Capacity cannot be negative.');
+      } else {
+        setCapacityError('');  // Clear error if valid
+      }
+    }
+  };
+
+   // Prevent non-numeric characters except "." in the capacity input field
+   const handleCapacityKeyDown = (e) => {
+      const allowedKeys = ['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight', 'Tab'];
+    
+      // Allow only numbers, dot, and essential keys
+      if (!/[0-9.]$/.test(e.key) && !allowedKeys.includes(e.key)) {
+        e.preventDefault();
+      }
+    
+      // Prevent multiple dots
+      if (e.key === '.' && capacity.includes('.')) {
+        e.preventDefault();
+      }
+  };
+
+  const handleLocationKeyDown = (e) => {
+    const allowedKeys = [
+      'Backspace', 'Delete', 'ArrowLeft', 'ArrowRight', 'Tab', ' ', ',', '.', '/',
+    ];
+  
+    // Allow letters (a-z, A-Z), numbers (0-9), and specific address characters
+    if (!/[a-zA-Z0-9]/.test(e.key) && !allowedKeys.includes(e.key)) {
+      e.preventDefault();
+    }
+  };
+  
+  
+  
+  // Function to check if the form is valid
+  useEffect(() => {
+    const isValid =
+      !idError &&
+      !capacityError &&
+      Id !== '' &&
+      location !== '' &&
+      capacity !== '' &&
+      Object.values(itemTypes).some((checked) => checked); // Ensure at least one item type is checked
+
+    setIsFormValid(isValid);
+  }, [Id, location, capacity, idError, capacityError, itemTypes]);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    // Ensure all fields are valid
+    if (idError || capacityError || !Id || !location || !capacity) {
+      return;  // Prevent submission if there are errors or required fields are missing
+    }
     // Submit form data (location, capacity, itemTypes) to the backend
     const formData = {
       Id,
@@ -58,10 +135,11 @@ const AddInventoryForm = ({ showModal, onClose }) => {
                 <input 
                 type="text" 
                 value={Id} 
-                onChange={(e) => setId(e.target.value)} 
-                placeholder="Input Inventory Id" 
+                onChange={handleIdChange} 
+                placeholder="Input Inventory Id:  ex- #I001" 
                 required 
                 />
+                {idError && <p className="error-message">{idError}</p>}  {/* Display error message */}
             </div>
             <div className="input-group">
                 <label>Location</label>
@@ -69,6 +147,7 @@ const AddInventoryForm = ({ showModal, onClose }) => {
                 type="text" 
                 value={location} 
                 onChange={(e) => setLocation(e.target.value)} 
+                onKeyDown={handleLocationKeyDown}  // Attach keydown handler
                 placeholder="Input Location" 
                 required 
                 />
@@ -78,8 +157,10 @@ const AddInventoryForm = ({ showModal, onClose }) => {
                 <input 
                 type="number" 
                 value={capacity} 
-                onChange={(e) => setCapacity(e.target.value)} 
+                onChange={handleCapacityChange}
+                onKeyDown={handleCapacityKeyDown}
                 placeholder="Input Capacity" 
+                min="0"
                 required 
                 />
             </div>

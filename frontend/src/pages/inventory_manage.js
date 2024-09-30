@@ -29,8 +29,8 @@ const InventoryManage = () => {
 
     // State for dynamic data  -----------------------------------------------
     const [totalInventories, settotalInventories] = useState(0);
-    const [inStock, setInStock] = useState(0);
-    const [outOfStock, setOutOfStock] = useState(0);
+    const [inStock, setInStock] = useState(1);
+    const [outOfStock, setOutOfStock] = useState(1);
 
     // fetching data from the backend
     useEffect(() => {

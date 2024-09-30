@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import './styles/stock_mn_mnstock_stocktable.css';
 import UnloadModal from './unload_modal';
+import { format } from 'date-fns'; // Importing format from date-fns
 
 const InventoryDataTable = ({ tableData }) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -23,7 +24,7 @@ const InventoryDataTable = ({ tableData }) => {
                 <table className="inventory-table">
                     <thead>
                         <tr>
-                            <th>ID</th>
+                            <th title="Stock Keeping Unit">SKU</th>
                             <th>Item Name</th>
                             <th>Type</th>
                             <th>Date</th>
@@ -37,10 +38,10 @@ const InventoryDataTable = ({ tableData }) => {
                         {tableData.length > 0 ? (
                             tableData.map((item, index) => (
                                 <tr key={index}>
-                                    <td>{item.id}</td>
-                                    <td>{item.name}</td>
-                                    <td>{item.type}</td>
-                                    <td>{item.date}</td>
+                                    <td>{item.sku}</td>
+                                    <td>{item.itemName}</td>
+                                    <td>{item.itemType}</td>
+                                    <td>{format(new Date(item.date), 'yyyy-MM-dd')}</td>
                                     <td>{item.amount}</td>
                                     <td>{item.worth}</td>
                                     <td>{item.occupiedSpace}</td>

@@ -124,6 +124,13 @@
     border-radius: 5px;
   }
 
+  .error-message {
+    color: #ff6666; 
+    font-size: 12px;
+    margin-top: 5px;
+    margin-bottom: 0;
+  }
+
   .category-options h3
   {
     text-align: start;

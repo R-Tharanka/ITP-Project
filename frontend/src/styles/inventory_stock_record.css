@@ -16,9 +16,38 @@
 
 .tab-section {
     display: flex;
-    justify-content: flex-start;
+    justify-content: space-between;
     margin-bottom: 20px;
     margin-top: 37px;
+}
+
+.stock-record-search {
+    display: flex;
+    align-items: flex-start;
+    flex-direction: row;
+}
+.search-Img
+{
+    width: 15px;
+    padding: 8.6px;
+    border: 1px solid #e0e0e0;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+    /* border-left-width: 0; */
+    background-color: #f6faf6;
+}
+
+.search-input {
+    width: 200px;
+    padding: 8px 12px;
+    border: 1px solid #e0e0e0;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+    border-right-width: 0;
+    background-color: #f6faf6;
+    font-size: 14px;
+    color: #666;
+    outline: none;
 }
 
 .tab-button {

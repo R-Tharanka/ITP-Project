@@ -51,6 +51,13 @@
     border-radius: 5px;
   }
   
+  .error-message {
+    color: #ff6666; 
+    font-size: 12px;
+    margin-top: 5px;
+    margin-bottom: 0;
+  }
+
   .checkbox-group {
     display: flex;
     margin-bottom: 25px;

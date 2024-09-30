@@ -29,7 +29,50 @@ const AddStockForm = ({ showModal, onClose }) => {
     'Semi Final Products': 'SF',
     'Returned Goods': 'RG',
   };
-  
+
+  // Validation states
+  const [amountError, setAmountError] = useState('');
+  const [worthError, setWorthError] = useState('');
+  const [spaceError, setSpaceError] = useState('');
+  const [isFormValid, setIsFormValid] = useState(false);
+
+  // Real-time validation for numeric fields
+  const validateNumberInput = (value, setter, errorSetter, fieldName) => {
+    if (!/^[0-9]*\.?[0-9]*$/.test(value)) {
+      errorSetter(`${fieldName} must be a valid number.`);
+    } else if (parseFloat(value) < 0) {
+      errorSetter(`${fieldName} cannot be negative.`);
+    } else {
+      errorSetter('');
+    }
+    setter(value);
+  };
+
+  // Prevent non-numeric characters except "." in the capacity input field
+  const handleCapacityKeyDown = (e) => {
+    const allowedKeys = ['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight', 'Tab'];
+
+    // Allow only numbers, dot, and essential keys
+    if (!/[0-9.]$/.test(e.key) && !allowedKeys.includes(e.key)) {
+      e.preventDefault();
+    }
+
+    // Prevent multiple dots
+    if (e.key === '.' && occupiedSpace.includes('.')) {
+      e.preventDefault();
+    }
+  };
+
+  // Overall form validation
+  useEffect(() => {
+    if (itemName && itemType && date && !amountError && !worthError && !spaceError && amount && worth && occupiedSpace) {
+      setIsFormValid(true);
+    } else {
+      setIsFormValid(false);
+    }
+  }, [itemName, itemType, date, amountError, worthError, spaceError, amount, worth, occupiedSpace]);
+
+
   // Function to generate SKU
   const generateSKU = (name, type) => {
     const nameAbbreviation = itemNameMap[name] || '';
@@ -62,8 +105,8 @@ const AddStockForm = ({ showModal, onClose }) => {
     console.log("Form Data Submitted: ", formData);
 
     try {
-      const response = await addStock(formData); // Send data to the backend
-      console.log('Stock added successfully:', response);
+      const response = await addStock(formData); // Call API to add stock and update inventory status
+      console.log('Stock and inventory status updated successfully:', response);
 
       // Optionally, you can reset the form after submission
       // setItemType('Raw Material');
@@ -76,7 +119,7 @@ const AddStockForm = ({ showModal, onClose }) => {
       // Close the modal
       onClose();
     } catch (error) {
-      console.error('Failed to add stock:', error);
+      console.error('Failed to add stock and update inventory status:', error);
     }
   };
 
@@ -182,6 +225,7 @@ const AddStockForm = ({ showModal, onClose }) => {
                     type="date"
                     id="date"
                     value={date}
+                    max={new Date().toISOString().slice(0, 10)}  // Set max to today's date
                     onChange={(e) => setDate(e.target.value)}
                     required
                   />
@@ -193,7 +237,9 @@ const AddStockForm = ({ showModal, onClose }) => {
                     type="number"
                     id="amount"
                     value={amount}
-                    onChange={(e) => setAmount(e.target.value)}
+                    onChange={(e) => validateNumberInput(e.target.value, setAmount, setAmountError, 'Amount')}
+                    onKeyDown={handleCapacityKeyDown}
+                    min="0"
                     required
                   />
                 </div>
@@ -206,7 +252,9 @@ const AddStockForm = ({ showModal, onClose }) => {
                     type="number"
                     id="worth"
                     value={worth}
-                    onChange={(e) => setWorth(e.target.value)}
+                    onChange={(e) => validateNumberInput(e.target.value, setWorth, setWorthError, 'Worth')}
+                    onKeyDown={handleCapacityKeyDown}
+                    min="0"
                     required
                   />
                 </div>
@@ -217,14 +265,16 @@ const AddStockForm = ({ showModal, onClose }) => {
                     type="number"
                     id="occupiedSpace"
                     value={occupiedSpace}
-                    onChange={(e) => setOccupiedSpace(e.target.value)}
+                    onChange={(e) => validateNumberInput(e.target.value, setOccupiedSpace, setSpaceError, 'Occupied Space')}
+                    onKeyDown={handleCapacityKeyDown}
+                    min="0"
                     required
                   />
                 </div>
               </div>
 
               <div className="form-actions">
-                <button type="submit" className="add-btn">Add</button>
+                <button type="submit" className="add-btn"  disabled={!isFormValid}>Add</button>
                 <button type="button" className="cancel-btn" onClick={onClose}>Cancel</button>
               </div>
             </form>

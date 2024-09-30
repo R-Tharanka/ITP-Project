@@ -57,6 +57,10 @@ h2 {
     align-items: center;
 }
 
+.form-group select {
+    width: 182px !important;
+}
+
 .form-group label {
     display: block;
     margin-bottom: 5px;

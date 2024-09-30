@@ -18,6 +18,70 @@ const UpdateInventoryForm = ({ currentItem, onUpdate, onClose }) => {
     "Wastage"
   ];
 
+  const [idError, setIdError] = useState('');    // Validation Error for ID
+  const [capacityError, setCapacityError] = useState(''); // Validation Error for Capacity
+  const [isFormValid, setIsFormValid] = useState(false); // Track form validity
+
+  // Validate ID in real-time
+  const handleIdChange = (e) => {
+    const value = e.target.value;
+    const idPattern = /^#I\d{3}$/; // ID must be #I followed by 3 digits
+
+    if (value === '' || idPattern.test(value)) {
+      setIdError(''); // Clear error if valid
+    } else {
+      setIdError('ID must be in format #I followed by 3 digits (e.g., #I001)');
+    }
+
+    setUpdatedItem((prevItem) => ({
+      ...prevItem,
+      Id: value,
+    }));
+  };
+
+   // Handle Capacity input and validation (only allow numbers and a single dot)
+   const handleCapacityChange = (e) => {
+    const value = e.target.value;
+    if (value === '' || /^[0-9]*\.?[0-9]*$/.test(value)) {
+      setUpdatedItem((prevItem) => ({
+        ...prevItem,
+        capacity: value,
+      }));
+
+      // Validate if the capacity is negative
+      if (parseFloat(value) < 0) {
+        setCapacityError('Capacity cannot be negative.');
+      } else {
+        setCapacityError(''); // Clear error if valid
+      }
+    }
+  };
+
+  // Prevent non-numeric characters except "." in the capacity input field
+  const handleCapacityKeyDown = (e) => {
+    const allowedKeys = ['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight', 'Tab'];
+
+    // Allow only numbers, dot, and essential keys
+    if (!/[0-9.]$/.test(e.key) && !allowedKeys.includes(e.key)) {
+      e.preventDefault();
+    }
+
+    // Prevent multiple dots
+    if (e.key === '.' && updatedItem.capacity.includes('.')) {
+      e.preventDefault();
+    }
+  };
+
+// Handle location input keydown validation
+const handleLocationKeyDown = (e) => {
+  const allowedKeys = ['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight', 'Tab', ' ', ',', '.', '/'];
+
+  // Allow letters (a-z, A-Z), numbers (0-9), and specific address characters
+  if (!/[a-zA-Z0-9]/.test(e.key) && !allowedKeys.includes(e.key)) {
+    e.preventDefault();
+  }
+};
+
   // Use useEffect to set the updated item whenever currentItem changes
   useEffect(() => {
     setUpdatedItem({
@@ -83,7 +147,7 @@ const UpdateInventoryForm = ({ currentItem, onUpdate, onClose }) => {
       // Optionally, notify the user of success or close the form
       alert('Inventory item updated successfully');
       onUpdate(updatedData); // Call parent handler to refresh data
-      
+
       onClose(); // Close the form
     } catch (error) {
       console.error('Failed to update inventory item:', error);
@@ -106,8 +170,9 @@ const UpdateInventoryForm = ({ currentItem, onUpdate, onClose }) => {
               type="text"
               name="Id"
               value={updatedItem.Id}
-              onChange={handleChange}
+              onChange={handleIdChange}
             />
+            {idError && <div className="error-message">{idError}</div>}
           </label>
           <label>
             Location:
@@ -116,16 +181,19 @@ const UpdateInventoryForm = ({ currentItem, onUpdate, onClose }) => {
               name="location"
               value={updatedItem.location}
               onChange={handleChange}
+              onKeyDown={handleLocationKeyDown}
             />
           </label>
           <label>
             Capacity:
             <input className="loc-cap"
-              type="text"
+              type="number"
               name="capacity"
               value={updatedItem.capacity}
               onChange={handleChange}
+              onKeyDown={handleCapacityKeyDown}
             />
+            {capacityError && <div className="error-message">{capacityError}</div>}
           </label>
           <div className="category-options">
             <h3>Select Category Types</h3>

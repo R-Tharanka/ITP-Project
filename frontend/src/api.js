@@ -4,6 +4,8 @@ import axios from 'axios';
 const INVENTORY_API_URL = 'http://localhost:5000/api/inventory'; 
 const STOCK_API_URL = 'http://localhost:5000/api/stock'; 
 
+// Inventory-related functions--------------------------------------------------------------------------------
+
 // Function to get inventory items
 // export const getItems = async () => {
 //     const response = await axios.get(`${INVENTORY_API_URL}/items`);
@@ -38,7 +40,7 @@ export const deleteInventoryItem = async (id) => {
     }
 };
   
-// Stock-related functions
+// Stock-related functions--------------------------------------------------------------------------------
 
 // Function to add a new stock item
 export const addStock = async (stockData) => {
@@ -46,7 +48,7 @@ export const addStock = async (stockData) => {
       const response = await axios.post(`${STOCK_API_URL}/add`, stockData); // Match the POST route for stock
       return response.data;
     } catch (error) {
-      console.error('Error adding stock:', error);
+      console.error('Error adding stock and updating inventory status:', error);
       throw error;
     }
 };

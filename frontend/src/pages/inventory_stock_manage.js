@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import axios from 'axios'; // Import axios for making API calls
 
 import StockMnHeader from '../components/stock_mn_header';
 import StockMnFooter from '../components/stock_mn_footer';
@@ -14,15 +15,23 @@ const InventoryStockManage = () => {
     const [categoryData, setCategoryData] = useState([]); // Placeholder for selected category data
 
     const [tableData, setTableData] = useState([]); //for table
-    // Simulate fetching data
-    const fetchData = () => {
-        const fetchedData = [
-            { id: 1, name: 'Turmeric', type: 'Raw Material', amount: 650, worth: 800, occupiedSpace: 0.7, date: '2024-09-20' },
-            { id: 2, name: 'Ginger', type: 'Raw Material', amount: 450, worth: 600, occupiedSpace: 0.5, date: '2024-09-18' },
-            { id: 3, name: 'Dry Chilli', type: 'Returned Goods', amount: 500, worth: 700, occupiedSpace: 0.6, date: '2024-09-17' }
-        ];
-        setTableData(fetchedData);
+
+    //fetching data from backend
+    const fetchData = async () => {
+        try {
+            // Make an API request to fetch the inventory status data
+            const response = await axios.get('http://localhost:5000/api/inventory_status'); //API route
+            setTableData(response.data); // Update tableData with fetched data from the backend
+        } catch (error) {
+            console.error('Error fetching inventory status data:', error);
+        }
     };
+
+    useEffect(() => {
+        // Fetch data from inventory_status table when the component mounts
+        fetchData();
+    }, []);
+    
 
     useEffect(() => {
         // Fetch or initialize default data
@@ -88,11 +97,8 @@ const InventoryStockManage = () => {
                     <InventoryChartSummary categoryData={categoryData} />
 
                     <div className="table-container-div">
-                        {/* Add a button or an effect to call fetchData when needed */}
                         <StockDataTable tableData={tableData} />
                     </div>
-
-                    {/* Rest of the content goes here, like charts, tables */}
 
                 </div>
             </div>

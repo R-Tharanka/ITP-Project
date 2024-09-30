@@ -8,30 +8,25 @@ import StockMnHeader from '../components/stock_mn_header';
 import StockMnFooter from '../components/stock_mn_footer';
 import StockMnSideNav from '../components/stock_mn_sidenav';
 import '../styles/inventory_stock_record.css';
+import searchImg from '../assets/img/stockpile management/icon/search.png'
 
 const InventoryStockRecord = () => {
 
     const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
     const [activeTab, setActiveTab] = useState('loading');
-    const [fileType, setFileType] = useState('csv');
 
-    const [loadingData, setLoadingData] = useState([]); // Stock data from backend
+    const [fileType, setFileType] = useState('csv');
+    const [searchQuery, setSearchQuery] = useState('');
+
+    const [loadingData, setLoadingData] = useState([]); // LoadingStock data from backend
+    const [unloadingData, setUnloadingData] = useState([]);// UnloadingStock data from backend
 
 
     const toggleSidebar = () => {
         setIsSidebarCollapsed(!isSidebarCollapsed);
     };
 
-    const unloadingData = [
-        { id: '#002', name: 'ginger', type: 'Raw Material', date: '12/02/2023', amount: '500 kg', worth: 'LKR 550 000', space: '72 m³' },
-        { id: '#002', name: 'ginger', type: 'Raw Material', date: '12/02/2023', amount: '500 kg', worth: 'LKR 550 000', space: '72 m³' },
-        { id: '#002', name: 'ginger', type: 'Raw Material', date: '12/02/2023', amount: '500 kg', worth: 'LKR 550 000', space: '72 m³' },
-        { id: '#002', name: 'ginger', type: 'Raw Material', date: '12/02/2023', amount: '500 kg', worth: 'LKR 550 000', space: '72 m³' },
-        { id: '#002', name: 'ginger', type: 'Raw Material', date: '12/02/2023', amount: '500 kg', worth: 'LKR 550 000', space: '72 m³' },
-        { id: '#002', name: 'ginger', type: 'Raw Material', date: '12/02/2023', amount: '500 kg', worth: 'LKR 550 000', space: '72 m³' },
-        // More unloading data here
-    ];
-
+    //fetch the loading data from backend API
     useEffect(() => {
         const fetchStocks = async () => {
             try {
@@ -45,7 +40,36 @@ const InventoryStockRecord = () => {
     
         fetchStocks();
     }, []);
+
+    //fetch the unloading data from backend API
+    useEffect(() => {
+        const fetchUnloadingStocks = async () => {
+            try {
+                const response = await axios.get('http://localhost:5000/api/unload_stocks');  // Replace with your actual API endpoint
+                console.log("Fetched unloading data:", response.data);
+                setUnloadingData(response.data);  // Store the fetched data in the state
+            } catch (error) {
+                console.error("Error fetching unloading stock data:", error);
+            }
+        };
     
+        fetchUnloadingStocks();  // Fetch the unloading data when the component mounts
+    }, []);  // Empty dependency array to run only once
+    
+    
+    // Filter data based on search query
+    const filterData = (data) => {
+        return data.filter(item =>
+            item.sku.toLowerCase().includes(searchQuery.toLowerCase()) ||
+            item.itemName.toLowerCase().includes(searchQuery.toLowerCase()) ||
+            item.itemType.toLowerCase().includes(searchQuery.toLowerCase())
+        );
+    };
+
+    // Filtered loading and unloading data  based on the search query
+    const filteredLoadingData = filterData(loadingData);
+    const filteredUnloadingData = filterData(unloadingData);
+
 
     const downloadReport = (data) => {
         if (data.length === 0) {
@@ -68,15 +92,40 @@ const InventoryStockRecord = () => {
                 ])
             ];
 
-            console.log("Data being processed for CSV:", data);
-    
-            const csvContent = "data:text/csv;charset=utf-8," + csvData.map(e => e.join(",")).join("\n");
-            const encodedUri = encodeURI(csvContent);
+            console.log("csvData:", csvData);
+            
+            // Join data with proper line endings for CSV files
+            const csvContent = csvData.map(row => row.join(",")).join("\r\n");
+            console.log("csvContent:", csvContent);
+
+            // Create a blob from the CSV string to ensure proper download
+            const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+            const url = URL.createObjectURL(blob);
+
+            // Create a download link
             const link = document.createElement("a");
-            link.setAttribute("href", encodedUri);
+            link.setAttribute("href", url);
             link.setAttribute("download", `${activeTab}_report.csv`);
+            console.log(csvContent); //for debug CSV content before download
             document.body.appendChild(link);
             link.click();
+            document.body.removeChild(link);
+
+
+            // OLD----------------
+            // const csvContent = "data:text/csv;charset=utf-8," + csvData.map(e => e.join(",")).join("\n");
+            // console.log("csvContent:", csvContent);
+
+            // const encodedUri = encodeURI(csvContent);
+            // console.log("encodedUri:", encodedUri);
+
+            // const link = document.createElement("a");
+            // link.setAttribute("href", encodedUri);
+            // link.setAttribute("download", `${activeTab}_report.csv`);
+            // console.log(csvContent); //for debug CSV content before download
+            // document.body.appendChild(link);
+            // link.click();
+            // link.remove();
         } else if (fileType === 'pdf') {
             // PDF Generation
             const doc = new jsPDF();
@@ -113,8 +162,8 @@ const InventoryStockRecord = () => {
                 },
                 columnStyles: {
                     0: { halign: 'left', cellWidth: 20 }, // (Sku) 
-                    1: { halign: 'left', cellWidth: 30 },   // (Item Name)
-                    2: { halign: 'left', cellWidth: 30 },   //(Type)
+                    1: { halign: 'left', cellWidth: 30 },  // (Item Name)
+                    2: { halign: 'left', cellWidth: 30 },  //(Type)
                     3: { halign: 'left', cellWidth: 25 }, //(Date)
                     4: { halign: 'left', cellWidth: 22 },  //(Amount) 
                     5: { halign: 'left', cellWidth: 20 },  //(Worth)
@@ -129,32 +178,43 @@ const InventoryStockRecord = () => {
     };
 
     const renderTable = (data) => (
-        <table className="stock-table">
-            <thead>
-                <tr>
-                    <th title="Stock Keeping Unit">SKU</th>
-                    <th>Item Name</th>
-                    <th>Type</th>
-                    <th>Date</th>
-                    <th>Amount</th>
-                    <th>Worth</th>
-                    <th>Occupied Space</th>
-                </tr>
-            </thead>
-            <tbody>
-                {data.map((item, index) => (
-                    <tr key={index}>
-                        <td>{item.sku}</td>
-                        <td>{item.itemName}</td>
-                        <td>{item.itemType}</td>
-                        <td>{format(new Date(item.date), 'yyyy-MM-dd')}</td>
-                        <td>{item.amount}</td>
-                        <td>{item.worth}</td>
-                        <td>{item.occupiedSpace}</td>
+        <div>
+            <table className="stock-table">
+                <thead>
+                    <tr>
+                        <th title="Stock Keeping Unit">SKU</th>
+                        <th>Item Name</th>
+                        <th>Type</th>
+                        <th>Date</th>
+                        <th>Amount</th>
+                        <th>Worth</th>
+                        <th>Occupied Space</th>
                     </tr>
-                ))}
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                    {data.length > 0 ? (
+                        data.map((item, index) => (
+                            <tr key={index}>
+                                <td>{item.sku}</td>
+                                <td>{item.itemName}</td>
+                                <td>{item.itemType}</td>
+                                <td>{format(new Date(item.date), 'yyyy-MM-dd')}</td>
+                                <td>{item.amount}</td>
+                                <td>{item.worth}</td>
+                                <td>{item.occupiedSpace}</td>
+                            </tr>
+                        ))
+                    ) : (
+                        <tr>
+                            {/* Displaying "No data available" message within a table row, spanning all columns */}
+                            <td colSpan="7">
+                                <p>No {activeTab} data available</p>
+                            </td>
+                        </tr>
+                    )}
+                </tbody>
+            </table>
+        </div>
     );
 
     return (
@@ -168,18 +228,30 @@ const InventoryStockRecord = () => {
 
                 <div className={`stockpile-section ${isSidebarCollapsed ? 'collapsed' : 'expanded'}`}>
                     <div className="tab-section">
-                        <button className={`tab-button ${activeTab === 'loading' ? 'active' : ''}`}
-                                onClick={() => setActiveTab('loading')}>
-                            Loading
-                        </button>
-                        <button className={`tab-button ${activeTab === 'unloading' ? 'active' : ''}`}
-                                onClick={() => setActiveTab('unloading')}>
-                            Unloading
-                        </button>
+                        <div>
+                            <button className={`tab-button ${activeTab === 'loading' ? 'active' : ''}`}
+                                    onClick={() => setActiveTab('loading')}>
+                                Loading
+                            </button>
+                            <button className={`tab-button ${activeTab === 'unloading' ? 'active' : ''}`}
+                                    onClick={() => setActiveTab('unloading')}>
+                                Unloading
+                            </button>
+                        </div>
+                        <div className="stock-record-search">
+                            <input
+                                type="text"
+                                className="search-input"
+                                placeholder="Search"
+                                value={searchQuery}
+                                onChange={(e) => setSearchQuery(e.target.value)}  // Update searchQuery
+                            />
+                            <img src={searchImg} alt="search-icon" className="search-Img"/>
+                        </div>
                     </div>
 
                     <div className="tab-content">
-                        {activeTab === 'loading' ? renderTable(loadingData) : renderTable([])}
+                        {activeTab === 'loading' ? renderTable(filteredLoadingData) : renderTable(filteredUnloadingData)}
                     </div>
 
                     <div className="gen-rep-btn-div">
