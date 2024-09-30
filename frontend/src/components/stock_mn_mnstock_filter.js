@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import fiterIcon from '../assets/img/stockpile management/icon/filter icon.png'
 import '../styles/stock_mn_mnstock_filter.css';
 
-const InventoryFilterSection = ({ onFilterApply }) => {
+const InventoryFilterSection = ({ onFilterApply, setFilteredCategory, setFilteredData, tableData }) => {
     const [selectedCategory, setSelectedCategory] = useState('Raw Materials');
 
     const categories = [
@@ -18,8 +18,19 @@ const InventoryFilterSection = ({ onFilterApply }) => {
     };
 
     const handleFilterApply = () => {
-        // Placeholder for future backend interaction
-        onFilterApply(selectedCategory);
+        setFilteredCategory(selectedCategory); // Set the selected category
+        console.log(`Filtering by: ${selectedCategory}`); // Log the selected category
+        const filtered = tableData.filter((item) => item.itemType === selectedCategory);
+        setFilteredData(filtered); // Update filtered data based on the selected category
+    };
+    
+
+    // function to clear filters
+    const handleClearFilter = () => {
+        setSelectedCategory('Raw Materials'); // Reset selected category
+        setFilteredCategory('Raw Materials'); // Reset category in parent
+        setFilteredData(tableData); // Reset to all data
+        console.log('Clearing filter, showing all data');
     };
 
     return (
@@ -40,10 +51,15 @@ const InventoryFilterSection = ({ onFilterApply }) => {
                         </button>
                     ))}
                 </div>
-
-                <button className="filter-icon-button" onClick={handleFilterApply}>
-                    <img src={fiterIcon} alt="Filter Icon" className="filter-icon" />
-                </button>
+                
+                <div className="filterAction">
+                    <button onClick={handleClearFilter} className="clear-filter-button">
+                            Clear Filter
+                    </button>
+                    <button className="filter-icon-button" onClick={handleFilterApply}>
+                        <img title="filter" src={fiterIcon} alt="Filter Icon" className="filter-icon" />
+                    </button>
+                </div>
 
             </div>
         </div>
