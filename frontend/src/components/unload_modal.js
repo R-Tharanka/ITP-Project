@@ -16,6 +16,14 @@ const InventoryUnloadModal = ({ item, closeModal }) => {
 
     console.log(item.type);
 
+    // State for input errors
+    const [errors, setErrors] = useState({
+        amount: '',
+        worth: '',
+        occupiedSpace: '',
+        date: '',
+    });
+
     // Prevent non-numeric characters except "." in the capacity input field
     const handleCapacityKeyDown = (e) => {
         const allowedKeys = ['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight', 'Tab'];
@@ -24,11 +32,6 @@ const InventoryUnloadModal = ({ item, closeModal }) => {
         if (!/[0-9.]$/.test(e.key) && !allowedKeys.includes(e.key)) {
         e.preventDefault();
         }
-
-        // // Prevent multiple dots
-        // if (e.key === '.' && occupiedSpace.includes('.')) {
-        // e.preventDefault();
-        // }
     };
 
     // Handle form changes to update the state for each input
@@ -38,10 +41,32 @@ const InventoryUnloadModal = ({ item, closeModal }) => {
             ...unloadData,
             [name]: value,
         });
+
+        // Clear error for the field once the user starts typing
+        setErrors({
+            ...errors,
+            [name]: '',
+        });
     };
 
     // Function to handle form submission for unloading stock
     const handleUnload = async () => {
+
+        const { amount, worth, occupiedSpace, date } = unloadData;
+
+        // Validation for empty fields
+        let validationErrors = {};
+        if (!amount) validationErrors.amount = 'Amount is required.';
+        if (!worth) validationErrors.worth = 'Worth is required.';
+        if (!occupiedSpace) validationErrors.occupiedSpace = 'Occupied Space is required.';
+        if (!date) validationErrors.date = 'Date is required.';
+
+        // If there are any validation errors, set them and stop form submission
+        if (Object.keys(validationErrors).length > 0) {
+            setErrors(validationErrors);
+            return; // Stop submission
+        }
+
         try {
             // Make a POST request to submit unload data
             const response = await axios.post('http://localhost:5000/api/unload_stocks/unload', unloadData);
@@ -169,7 +194,9 @@ const InventoryUnloadModal = ({ item, closeModal }) => {
                             value={unloadData.date}
                             max={new Date().toISOString().slice(0, 10)}
                             onChange={handleChange}
+                            required
                         />
+                        {errors.date && <p className="error">{errors.date}</p>}
                     </div>
 
                     {/* Amount Input */}
@@ -179,10 +206,13 @@ const InventoryUnloadModal = ({ item, closeModal }) => {
                             type="number"
                             name="amount"
                             min="0"
+                            max={unloadData.amount}
                             value={unloadData.amount}
                             onChange={handleChange}
                             onKeyDown={handleCapacityKeyDown}
+                            required
                         />
+                        {errors.amount && <p className="error">{errors.amount}</p>}
                     </div>
                 </div>
 
@@ -194,10 +224,13 @@ const InventoryUnloadModal = ({ item, closeModal }) => {
                             type="number"
                             name="worth"
                             min="0"
+                            max={unloadData.worth}
                             value={unloadData.worth}
                             onChange={handleChange}
                             onKeyDown={handleCapacityKeyDown}
+                            required
                         />
+                        {errors.worth && <p className="error">{errors.worth}</p>}
                     </div>
 
                     {/* Occupied Space Input */}
@@ -207,10 +240,13 @@ const InventoryUnloadModal = ({ item, closeModal }) => {
                             type="number"
                             name="occupiedSpace"
                             min="0"
+                            max={unloadData.occupiedSpace}
                             value={unloadData.occupiedSpace}
                             onChange={handleChange}
                             onKeyDown={handleCapacityKeyDown}
+                            required
                         />
+                        {errors.occupiedSpace && <p className="error">{errors.occupiedSpace}</p>}
                     </div>
                 </div>
 

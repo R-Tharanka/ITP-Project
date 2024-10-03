@@ -55,6 +55,10 @@
     transition: background-color 0.3s ease;
 }
 
+.filter-all{
+    
+}
+
 .filter-button.active {
     background-color: #e0f0e9;
     border-color: #58a6a6;

@@ -4,6 +4,7 @@ import axios from 'axios'; // Import axios for making API calls
 import StockMnHeader from '../components/stock_mn_header';
 import StockMnFooter from '../components/stock_mn_footer';
 import StockMnSideNav from '../components/stock_mn_sidenav';
+
 import InventoryFilterSection from '../components/stock_mn_mnstock_filter';
 import InventoryChartSummary from '../components/chart/stock_mn_stockmn_chart_summary';
 import StockDataTable from '../components/stock_mn_mnstock_stocktable';
@@ -11,7 +12,8 @@ import '../styles/inventory_stock_manage.css';
 
 const InventoryStockManage = () => {
     const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
-    const [filteredCategory, setFilteredCategory] = useState('Raw Material'); // For storing the selected category
+
+    const [filteredCategory, setFilteredCategory] = useState('All'); // For storing the selected category
     const [categoryData, setCategoryData] = useState([]); // Placeholder for selected category data
     const [filteredData, setFilteredData] = useState([]); // For storing the filtered data based on category
 
@@ -36,15 +38,19 @@ const InventoryStockManage = () => {
     };
 
     useEffect(() => {
-        // **Filter the data whenever tableData or filteredCategory changes**
-        const filtered = tableData.filter((item) => item.itemType === filteredCategory);
-        setFilteredData(filtered); // **Update filteredData with the filtered results**
-    }, [tableData, filteredCategory]);
-    
-    useEffect(() => {
         // Fetch data from inventory_status table when the component mounts
         fetchData();
     }, []);
+
+    useEffect(() => {
+        // **Filter the data whenever tableData or filteredCategory changes**
+        if (filteredCategory === 'All') {
+            setFilteredData(tableData);  // Show all data when "All" is selected
+        } else {
+            const filtered = tableData.filter((item) => item.itemType === filteredCategory);
+            setFilteredData(filtered);  // Update filtered data based on category
+        }
+    }, [tableData, filteredCategory]);
 
     useEffect(() => {
         // Fetch or initialize default data
@@ -116,13 +122,12 @@ const InventoryStockManage = () => {
                 <StockMnSideNav isCollapsed={isSidebarCollapsed} toggleSidebar={toggleSidebar} />
 
                 <div className={`stockpile-section ${isSidebarCollapsed ? 'collapsed' : 'expanded'}`}>
+                    
                     {/* Filter Section */}
-                    {/* <InventoryFilterSection onFilterApply={handleFilterApply} /> */}
                     <InventoryFilterSection 
-                        onFilterApply={handleFilterApply} 
-                        setFilteredCategory={setFilteredCategory} 
+                        setFilteredCategory={setFilteredCategory}
                         setFilteredData={setFilteredData}
-                        tableData={tableData} // Pass tableData as a prop
+                        tableData={tableData}  // Pass tableData to the filter section
                     />
 
                     {/* Chart and Summary Section */}

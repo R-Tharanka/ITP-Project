@@ -2,11 +2,12 @@ import React, { useState } from 'react';
 import fiterIcon from '../assets/img/stockpile management/icon/filter icon.png'
 import '../styles/stock_mn_mnstock_filter.css';
 
-const InventoryFilterSection = ({ onFilterApply, setFilteredCategory, setFilteredData, tableData }) => {
-    const [selectedCategory, setSelectedCategory] = useState('Raw Materials');
+const InventoryFilterSection = ({setFilteredCategory, setFilteredData, tableData }) => {
+    const [selectedCategory, setSelectedCategory] = useState('All');
 
     const categories = [
-        { id: 'raw', label: 'Raw Materials' },
+        { id: 'all', label: 'All' },
+        { id: 'raw', label: 'Raw Material' },
         { id: 'semifinal', label: 'Semifinal Products' },
         { id: 'final', label: 'Final Products' },
         { id: 'returned', label: 'Returned Goods' },
@@ -14,23 +15,17 @@ const InventoryFilterSection = ({ onFilterApply, setFilteredCategory, setFiltere
     ];
 
     const handleCategoryChange = (category) => {
-        setSelectedCategory(category);
+        setSelectedCategory(category); // Update selected category when a button is clicked
     };
 
     const handleFilterApply = () => {
         setFilteredCategory(selectedCategory); // Set the selected category
         console.log(`Filtering by: ${selectedCategory}`); // Log the selected category
-        const filtered = tableData.filter((item) => item.itemType === selectedCategory);
-        setFilteredData(filtered); // Update filtered data based on the selected category
-    };
-    
 
-    // function to clear filters
-    const handleClearFilter = () => {
-        setSelectedCategory('Raw Materials'); // Reset selected category
-        setFilteredCategory('Raw Materials'); // Reset category in parent
-        setFilteredData(tableData); // Reset to all data
-        console.log('Clearing filter, showing all data');
+        const filtered = selectedCategory === 'All'
+            ? tableData  // Show all data if "All" is selected
+            : tableData.filter((item) => item.itemType === selectedCategory);
+        setFilteredData(filtered);  // Update filtered data in the parent component
     };
 
     return (
@@ -41,21 +36,19 @@ const InventoryFilterSection = ({ onFilterApply, setFilteredCategory, setFiltere
             </p>
             <div className="filter-buttons">
                 <div className="filter-category-div">
-                    {categories.map((category) => (
-                        <button
-                            key={category.id}
-                            className={`filter-button ${selectedCategory === category.label ? 'active' : ''}`}
-                            onClick={() => handleCategoryChange(category.label)}
-                        >
-                            {category.label}
-                        </button>
-                    ))}
+                        {categories.map((category) => (
+                            <button
+                                key={category.id}
+                                className={`filter-button ${selectedCategory === category.label ? 'active' : ''}`}
+                                onClick={() => handleCategoryChange(category.label)}  // Handle category change
+                            >
+                                {category.label}
+                            </button>
+                        ))}
                 </div>
                 
                 <div className="filterAction">
-                    <button onClick={handleClearFilter} className="clear-filter-button">
-                            Clear Filter
-                    </button>
+                    
                     <button className="filter-icon-button" onClick={handleFilterApply}>
                         <img title="filter" src={fiterIcon} alt="Filter Icon" className="filter-icon" />
                     </button>

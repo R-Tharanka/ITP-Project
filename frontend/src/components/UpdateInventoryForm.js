@@ -21,6 +21,7 @@ const UpdateInventoryForm = ({ currentItem, onUpdate, onClose }) => {
   const [idError, setIdError] = useState('');    // Validation Error for ID
   const [capacityError, setCapacityError] = useState(''); // Validation Error for Capacity
   const [isFormValid, setIsFormValid] = useState(false); // Track form validity
+  const [showWarning, setShowWarning] = useState(false);
 
   // Validate ID in real-time
   const handleIdChange = (e) => {
@@ -49,7 +50,7 @@ const UpdateInventoryForm = ({ currentItem, onUpdate, onClose }) => {
       }));
 
       // Validate if the capacity is negative
-      if (parseFloat(value) < 0) {
+      if (value !== '' && !isNaN(parseFloat(value)) && parseFloat(value) < 0) {
         setCapacityError('Capacity cannot be negative.');
       } else {
         setCapacityError(''); // Clear error if valid
@@ -72,15 +73,19 @@ const UpdateInventoryForm = ({ currentItem, onUpdate, onClose }) => {
     }
   };
 
-// Handle location input keydown validation
-const handleLocationKeyDown = (e) => {
-  const allowedKeys = ['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight', 'Tab', ' ', ',', '.', '/'];
+  // Handle location input keydown validation
+  const handleLocationKeyDown = (e) => {
+    const allowedKeys = ['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight', 'Tab', ' ', ',', '.', '/'];
+    
+    if (e.ctrlKey || e.metaKey) {
+      return; // Allow copy-pasting with Ctrl+V or Cmd+V
 
-  // Allow letters (a-z, A-Z), numbers (0-9), and specific address characters
-  if (!/[a-zA-Z0-9]/.test(e.key) && !allowedKeys.includes(e.key)) {
-    e.preventDefault();
-  }
-};
+    }// Allow letters (a-z, A-Z), numbers (0-9), and specific address characters
+    if (!/[a-zA-Z0-9]/.test(e.key) && !allowedKeys.includes(e.key)) {
+      e.preventDefault();
+    }
+  };
+
 
   // Use useEffect to set the updated item whenever currentItem changes
   useEffect(() => {
@@ -127,8 +132,28 @@ const handleLocationKeyDown = (e) => {
     });
   };
 
+  useEffect(() => {
+    const isValid = updatedItem.Id && updatedItem.location && updatedItem.capacity && updatedItem.categories.length > 0 && !idError && !capacityError;
+    setIsFormValid(isValid);
+  }, [updatedItem, idError, capacityError]);
+
   // Handle the form submission
   const handleSubmit = async () => {
+
+    // Check if required fields are filled
+    if (!updatedItem.Id || !updatedItem.location || !updatedItem.capacity || updatedItem.categories.length === 0) {
+      setShowWarning(true);
+      return; // Prevent form submission if any required field is missing
+    }else{
+      setShowWarning(false); // Hide warning if form is valid
+    }
+
+    if (idError || capacityError) {
+      alert('Please fix the validation errors');
+      return; 
+    }
+    
+
     const updatedItemTypes = categoryOptions.reduce((acc, category) => {
       const key = category.split(' ').map((word, i) => i === 0 ? word.toLowerCase() : word.charAt(0).toUpperCase() + word.slice(1)).join(''); 
       acc[key] = updatedItem.categories.includes(category);
@@ -171,6 +196,7 @@ const handleLocationKeyDown = (e) => {
               name="Id"
               value={updatedItem.Id}
               onChange={handleIdChange}
+              required
             />
             {idError && <div className="error-message">{idError}</div>}
           </label>
@@ -182,6 +208,7 @@ const handleLocationKeyDown = (e) => {
               value={updatedItem.location}
               onChange={handleChange}
               onKeyDown={handleLocationKeyDown}
+              required
             />
           </label>
           <label>
@@ -192,6 +219,7 @@ const handleLocationKeyDown = (e) => {
               value={updatedItem.capacity}
               onChange={handleChange}
               onKeyDown={handleCapacityKeyDown}
+              required
             />
             {capacityError && <div className="error-message">{capacityError}</div>}
           </label>
@@ -204,12 +232,20 @@ const handleLocationKeyDown = (e) => {
                   value={category}
                   checked={updatedItem.categories?.includes(category) || false} // Safely check if category is included
                   onChange={handleCategoryChange}
+                  required
                 />
                 {category}
               </label>
             ))}
           </div>
         </div>
+
+        {showWarning && (
+          <div className="final-warning-div">
+            <p>Please fill in all required fields</p>
+          </div>
+        )}
+
         <div className="up-btn-div">
           <button onClick={handleSubmit} className="update-button">
             Update

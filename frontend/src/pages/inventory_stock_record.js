@@ -76,10 +76,16 @@ const InventoryStockRecord = () => {
             alert('No data available to generate a report.');
             return;
         }
-    
+        
+        const companyName = "NELCO";
+        const currentDate = format(new Date(), 'yyyy-MM-dd');
+
         if (fileType === 'csv') {
             // CSV Generation
             const csvData = [
+
+                [`${companyName}`,``,``,``,``,`Date:`, `${currentDate}`], //company name and date
+                [], // Empty line for separation
                 ["SKU", "Item Name", "Type", "Date", "Amount", "Worth", "Occupied Space"],
                 ...data.map(item => [
                     item.sku,  
@@ -111,26 +117,21 @@ const InventoryStockRecord = () => {
             link.click();
             document.body.removeChild(link);
 
-
-            // OLD----------------
-            // const csvContent = "data:text/csv;charset=utf-8," + csvData.map(e => e.join(",")).join("\n");
-            // console.log("csvContent:", csvContent);
-
-            // const encodedUri = encodeURI(csvContent);
-            // console.log("encodedUri:", encodedUri);
-
-            // const link = document.createElement("a");
-            // link.setAttribute("href", encodedUri);
-            // link.setAttribute("download", `${activeTab}_report.csv`);
-            // console.log(csvContent); //for debug CSV content before download
-            // document.body.appendChild(link);
-            // link.click();
-            // link.remove();
         } else if (fileType === 'pdf') {
             // PDF Generation
             const doc = new jsPDF();
+
+            // Add the company name and current date
+            doc.setFontSize(16);
+            doc.text(companyName, 14, 10);
+            doc.setFontSize(10);
+            doc.text(`Date: ${currentDate}`, 191, 10, { align: 'right' });
+
+            doc.setLineWidth(0.5);
+            doc.line(14, 15, 191, 15); // From x1, y1 (left) to x2, y2 (right)
             
-            doc.text(`${activeTab.charAt(0).toUpperCase() + activeTab.slice(1)} Report`, 14, 10);
+            doc.setFontSize(14);
+            doc.text(`${activeTab.charAt(0).toUpperCase() + activeTab.slice(1)} Report`, 14, 27);
             
             doc.autoTable({
                 head: [["SKU", "Item Name", "Type", "Date", "Amount", "Worth", "Occupied Space"]],
@@ -169,7 +170,7 @@ const InventoryStockRecord = () => {
                     5: { halign: 'left', cellWidth: 20 },  //(Worth)
                     6: { halign: 'left', cellWidth: 30 }, //(Occupied Space)
                 },
-                margin: { top: 25 },  // Top margin
+                margin: { top: 35 },  // Top margin
 
             });
             
