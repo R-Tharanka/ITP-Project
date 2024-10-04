@@ -20,6 +20,14 @@ router.post('/unload', async (req, res) => {
             return res.status(400).json({ message: 'Insufficient stock to unload.' });
         }
 
+        if (inventoryItem.worth < worth) {
+            return res.status(400).json({ message: 'Worth can not exceed current worth.' });
+        }
+
+        if (inventoryItem.occupiedSpace < occupiedSpace) {
+            return res.status(400).json({ message: 'Occupied space can not exceed current occupied space.' });
+        }
+
         // Calculate the new amount and worth after unloading
         const newAmount = inventoryItem.amount - amount;
         const newWorth = inventoryItem.worth - worth;

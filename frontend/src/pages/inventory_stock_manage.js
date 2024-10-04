@@ -14,7 +14,6 @@ const InventoryStockManage = () => {
     const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
 
     const [filteredCategory, setFilteredCategory] = useState('All'); // For storing the selected category
-    const [categoryData, setCategoryData] = useState([]); // Placeholder for selected category data
     const [filteredData, setFilteredData] = useState([]); // For storing the filtered data based on category
 
     const [tableData, setTableData] = useState([]); //for table
@@ -52,18 +51,6 @@ const InventoryStockManage = () => {
         }
     }, [tableData, filteredCategory]);
 
-    useEffect(() => {
-        // Fetch or initialize default data
-        const defaultData = [
-            { name: 'Sample Item', amount: 100 },
-            { name: 'Another Item', amount: 200 }
-        ];
-        setCategoryData(defaultData);
-
-        // Call fetchData to load data when the component mounts
-        fetchData();
-    }, []);
-
 
     // Function to filter data based on the selected category
     const filterData = (data, category) => {
@@ -77,42 +64,6 @@ const InventoryStockManage = () => {
         const filtered = tableData.filter((item) => item.itemType === category);
         setFilteredData(filtered); // Update filtered data based on the selected category
     };
-    
-    
-
-    // const handleFilterApply = (category) => {
-    //     setFilteredCategory(category);
-    //     // Placeholder: Here you'll fetch the data from backend later
-    //     filterData(tableData, category);
-    //     console.log(`Filtering by: ${category}`);
-
-    //     let fetchedData = [];
-
-    //     // Based on category, fetch or set different data.
-    //     // Simulated raw data for example
-    //     // Process and filter the data based on the selected category
-    //     if (category === 'Raw Materials') {
-    //         fetchedData = [
-    //         { name: 'Item 1', amount: 300 },
-    //         { name: 'Item 2', amount: 200 }
-    //         ];
-    //     } else if (category === 'Returned Goods') {
-    //         fetchedData = [
-    //             { name: 'Turmeric', amount: 650 },
-    //             { name: 'Ginger', amount: 450 },
-    //             { name: 'Dry Chilli', amount: 500 },
-    //             { name: 'Turmeric', amount: 480 },
-    //             { name: 'Ginger', amount: 420 },
-    //         ];
-    //     }
-
-    //     // Here you'd fetch data from backend based on the selected category (Raw Materials, etc.)
-        
-    //     // In reality, you would fetch this data from the backend.
-
-    //     setCategoryData(fetchedData);// Simulate fetching data based on the selected category
-
-    // };
 
     return (
         <div className="dashboard-container">
@@ -122,7 +73,7 @@ const InventoryStockManage = () => {
                 <StockMnSideNav isCollapsed={isSidebarCollapsed} toggleSidebar={toggleSidebar} />
 
                 <div className={`stockpile-section ${isSidebarCollapsed ? 'collapsed' : 'expanded'}`}>
-                    
+
                     {/* Filter Section */}
                     <InventoryFilterSection 
                         setFilteredCategory={setFilteredCategory}
@@ -131,7 +82,7 @@ const InventoryStockManage = () => {
                     />
 
                     {/* Chart and Summary Section */}
-                    <InventoryChartSummary categoryData={categoryData} />
+                    <InventoryChartSummary categoryData={filteredData} filterType={filteredCategory} />
 
                     <div className="table-container-div">
                         <StockDataTable tableData={filteredData} />
