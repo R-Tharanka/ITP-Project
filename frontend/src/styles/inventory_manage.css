@@ -1,11 +1,13 @@
 /* CSS for the inventory manage page */
 
 .stockpile-overview {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    margin-bottom: 20px;
-    padding: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 20px;
+  padding: 20px;
+  flex-wrap: wrap;
+  flex-direction: row;
 }
 
 .text-wrap{

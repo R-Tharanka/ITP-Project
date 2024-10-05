@@ -21,7 +21,7 @@ const InventoryDataTable = ({ tableData }) => {
     return (
         <>
             <div className="stock-table-container">
-                <table className="inventory-table">
+                <table className="inventory-table inventory-current-stat">
                     <thead>
                         <tr>
                             <th title="Stock Keeping Unit">SKU</th>
