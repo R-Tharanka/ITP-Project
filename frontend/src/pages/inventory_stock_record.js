@@ -179,8 +179,8 @@ const InventoryStockRecord = () => {
     };
 
     const renderTable = (data) => (
-        <div>
-            <table className="stock-table">
+        <div  className="stock-rec-table-container">
+            <table className="stock-rec-table">
                 <thead>
                     <tr>
                         <th title="Stock Keeping Unit">SKU</th>

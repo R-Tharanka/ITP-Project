@@ -92,6 +92,12 @@ const AddStockForm = ({ showModal, onClose }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    // Check if the form is valid
+    if (!itemName || !itemType || !date || amountError || worthError || spaceError || !amount || !worth || !occupiedSpace) {
+      alert("Please fill out all fields correctly before submitting.");
+      return;
+    }
+
     const formData = {
       itemType,
       sku,
@@ -108,7 +114,7 @@ const AddStockForm = ({ showModal, onClose }) => {
       const response = await addStock(formData); // Call API to add stock and update inventory status
       console.log('Stock and inventory status updated successfully:', response);
 
-      // Optionally, you can reset the form after submission
+      // Optionally, to reset the form after submission
       // setItemType('Raw Material');
       // setItemName('');
       // setAmount('');
@@ -274,7 +280,8 @@ const AddStockForm = ({ showModal, onClose }) => {
               </div>
 
               <div className="form-actions">
-                <button type="submit" className="add-btn"  disabled={!isFormValid}>Add</button>
+                {/* <button type="submit" className="add-btn"  disabled={!isFormValid}>Add</button> */}
+                <button type="submit" className="add-btn">Add</button>
                 <button type="button" className="cancel-btn" onClick={onClose}>Cancel</button>
               </div>
             </form>

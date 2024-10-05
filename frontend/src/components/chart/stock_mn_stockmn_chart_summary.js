@@ -19,6 +19,8 @@ const InventoryChartSummary = ({ categoryData, filterType }) => {
     });
     
     const [summaryData, setSummaryData] = useState([]);
+    const [totalAmount, setTotalAmount] = useState(0);  // For total amount
+    const [totalWorth, setTotalWorth] = useState(0);    // For total worth
 
     useEffect(() => {
         console.log('categoryData:', categoryData);
@@ -38,21 +40,29 @@ const InventoryChartSummary = ({ categoryData, filterType }) => {
                 }]
             });
             setSummaryData([]);
+            setTotalAmount(0);  // Reset total amount
+            setTotalWorth(0);   // Reset total worth
             return;  // Early return to stop further processing
         }
 
         const summaryMap = {};
+        let totalAmount = 0;  // To accumulate total amount
+        let totalWorth = 0;   // To accumulate total worth
 
         if (filterType === 'All') {
             // Aggregate amounts by itemType when 'All' filter is selected
             categoryData.forEach((item) => {
                 summaryMap[item.itemType] = (summaryMap[item.itemType] || 0) + item.amount;
+                totalAmount += item.amount;   // Add to total amount
+                totalWorth += item.worth;     // Add to total worth
             });
         } else {
             // Aggregate amounts by item name for specific filters
             categoryData.forEach((item) => {
                 if (item.itemType === filterType) {
                     summaryMap[item.itemName] = (summaryMap[item.itemName] || 0) + item.amount;
+                    totalAmount += item.amount;  // Add to total amount
+                    totalWorth += item.worth;    // Add to total worth
                 }
             });
         }
@@ -74,6 +84,8 @@ const InventoryChartSummary = ({ categoryData, filterType }) => {
                 }]
             });
             setSummaryData([]);
+            setTotalAmount(0);  // Reset total amount
+            setTotalWorth(0);   // Reset total worth
         } else {
             setChartData({
                 labels,
@@ -92,6 +104,9 @@ const InventoryChartSummary = ({ categoryData, filterType }) => {
                 name: key,
                 amount: amounts[index],
             })));
+
+            setTotalAmount(totalAmount);  // Update total amount
+            setTotalWorth(totalWorth);    // Update total worth
         }
 
     }, [categoryData, filterType]); // Re-run effect whenever categoryData or filterType changes
@@ -99,7 +114,6 @@ const InventoryChartSummary = ({ categoryData, filterType }) => {
     useEffect(() => {
         console.log('Chart Data:', chartData);
     }, [chartData]);
-    
 
     const chartOptions = {
         responsive: true,
@@ -119,7 +133,6 @@ const InventoryChartSummary = ({ categoryData, filterType }) => {
             },
         },
     };
-    
 
     return (
         <div className="chart-summary-container">
@@ -144,6 +157,19 @@ const InventoryChartSummary = ({ categoryData, filterType }) => {
                                 </li>
                             ))}
                         </ul>
+
+                        {/* Total Amount and Worth Display */}
+                        <div className="total-summary">
+                            <div className="summary-tot tot-amount">
+                                <p><strong>Total Amount:</strong></p>
+                                <p> {totalAmount} kg</p>
+                            </div>
+                            <hr className="tot-hr"></hr>
+                            <div className="summary-tot tot-worth">
+                                <p><strong>Total Worth:</strong></p>
+                                <p> $ {totalWorth}</p>
+                            </div>
+                        </div>
                     </div>
                 </>
             ) : (

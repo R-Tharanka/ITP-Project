@@ -60,6 +60,29 @@
     font-weight: 500;
 }
 
+.total-summary {
+    margin-top: 14px;
+    font-size: 16px;
+}
+.summary-tot {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: row;
+}
+.tot-worth p{
+    margin-bottom: 10px;
+}
+
+.tot-hr{
+    border: 1px solid #e5e5e5;
+}
+
+.tot-amount p{
+    margin-top: 10px;
+}
+
+
 @media (max-width: 768px) {
     .chart-section, .summary-section {
         flex: 1 1 100%;

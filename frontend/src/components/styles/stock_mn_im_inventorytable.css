@@ -1,13 +1,22 @@
-.inventory-table-container {
+.inventory-table-sect-container {
     margin: 60px 0;
     margin-bottom: 120px;
     /* padding: 20px; */
   }
   
-  .inventory-table-container h2 {
+  .inventory-table-sect-container h2 {
     font-size: 24px;
     margin-bottom: 35px;
     text-align: start;
+  }
+
+  .inventory-table-container{
+    padding: 0px !important;
+    display: grid;
+    grid-template-columns: 1fr;
+    overflow-x: auto;
+    align-items: center;
+    justify-items: stretch;
   }
   
   .inventory-table {
