@@ -52,18 +52,18 @@ const InventoryStockManage = () => {
     }, [tableData, filteredCategory]);
 
 
-    // Function to filter data based on the selected category
-    const filterData = (data, category) => {
-        const filtered = data.filter((item) => item.itemType === category);
-        setFilteredData(filtered);
-    };
+    // // Function to filter data based on the selected category
+    // const filterData = (data, category) => {
+    //     const filtered = data.filter((item) => item.itemType === category);
+    //     setFilteredData(filtered);
+    // };
 
-    const handleFilterApply = (category) => {
-        setFilteredCategory(category); // Set the selected category
-        console.log(`Filtering by: ${category}`); // Log the selected category
-        const filtered = tableData.filter((item) => item.itemType === category);
-        setFilteredData(filtered); // Update filtered data based on the selected category
-    };
+    // const handleFilterApply = (category) => {
+    //     setFilteredCategory(category); // Set the selected category
+    //     console.log(`Filtering by: ${category}`); // Log the selected category
+    //     const filtered = tableData.filter((item) => item.itemType === category);
+    //     setFilteredData(filtered); // Update filtered data based on the selected category
+    // };
 
     return (
         <div className="dashboard-container">

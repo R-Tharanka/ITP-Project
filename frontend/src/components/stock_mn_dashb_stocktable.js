@@ -1,22 +1,24 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
+import { format } from 'date-fns';
+import AddStockForm from './AddStockForm';
 import './styles/stock_mn_dashb_stocktable.css';
 
-const St_dshb_StockTable = () => {
+const St_dshb_StockTable = ({ tableData }) => {
 
-  // Example data for now, replace this with backend data later
-  const [stocks, setStocks] = useState([
-    { id: '#0034', name: 'Tumeric', type: 'Raw Material', date: '11/02/2023', amount: '600 kg', worth: 'LKR 650 000', space: '84 m³' },
-    { id: '#0034', name: 'Tumeric', type: 'Raw Material', date: '11/02/2023', amount: '600 kg', worth: 'LKR 650 000', space: '84 m³' },
-    { id: '#0034', name: 'Tumeric', type: 'Raw Material', date: '11/02/2023', amount: '600 kg', worth: 'LKR 650 000', space: '84 m³' },
-    { id: '#0034', name: 'Tumeric', type: 'Raw Material', date: '11/02/2023', amount: '600 kg', worth: 'LKR 650 000', space: '84 m³' },
-    { id: '#0034', name: 'Tumeric', type: 'Raw Material', date: '11/02/2023', amount: '600 kg', worth: 'LKR 650 000', space: '84 m³' },
-  ]);
+  const [showAddStockModal, setShowAddStockModal] = useState(false); //State to handle modal visibility
 
   return (
     <div className="table-container">
       <div className="table-actions">
-        <button className="add-stock">+ Add Stock</button>
-        <button className="unload-stock">- Unload Stock</button>
+        <button className="add-stock">
+          <li className="add-stock-btn" onClick={() => setShowAddStockModal(true) } title="Add Stock">
+            <span>+ Add Stock</span>
+          </li>
+        </button>
+        <Link to="/stock_manage">
+          <button className="unload-stock">- Unload Stock</button>
+        </Link>
       </div>
 
       <div className="table-wrapper">
@@ -24,31 +26,43 @@ const St_dshb_StockTable = () => {
           <table className="stock-table">
               <thead>
               <tr>
-                  <th>ID</th>
-                  <th>Item Name</th>
-                  <th>Type</th>
-                  <th>Date</th>
-                  <th>Amount</th>
-                  <th>Worth</th>
-                  <th>Occupied Space</th>
+                <th title="Stock Keeping Unit">SKU</th>
+                <th>Item Name</th>
+                <th>Type</th>
+                <th>Date</th>
+                <th>Amount (kg)</th>
+                <th>Worth ($)</th>
+                <th>Occupied Space (m³)</th>
               </tr>
               </thead>
               <tbody>
-              {stocks.map((stock, index) => (
-                  <tr key={index}>
-                  <td>{stock.id}</td>
-                  <td>{stock.name}</td>
-                  <td>{stock.type}</td>
-                  <td>{stock.date}</td>
-                  <td>{stock.amount}</td>
-                  <td>{stock.worth}</td>
-                  <td>{stock.space}</td>
-                  </tr>
-              ))}
+                  {tableData.length > 0 ? (
+                      tableData.map((item, index) => (
+                        <tr key={index}>
+                            <td>{item.sku}</td>
+                            <td>{item.itemName}</td>
+                            <td>{item.itemType}</td>
+                            <td>{format(new Date(item.date), 'yyyy-MM-dd')}</td>
+                            <td>{item.amount}</td>
+                            <td>{item.worth}</td>
+                            <td>{item.occupiedSpace}</td>
+                        </tr>
+                      ))
+                  ) : (
+                      <tr>
+                          <td colSpan="8" className="no-data">No data available</td>
+                      </tr>
+                  )}
               </tbody>
           </table>
         </div>
       </div>
+
+      {/* Modal for Adding Stock */}
+      <AddStockForm 
+        showModal={showAddStockModal} // **NEW** Pass the modal visibility state
+        onClose={() => setShowAddStockModal(false)} // **NEW** Function to close the modal
+      />
       
     </div>
   );

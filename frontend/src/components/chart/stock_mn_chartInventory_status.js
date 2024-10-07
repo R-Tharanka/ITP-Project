@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Pie } from 'react-chartjs-2';
 import {
   Chart as ChartJS,
@@ -10,19 +10,55 @@ import {
 // Register the required ChartJS components
 ChartJS.register(ArcElement, Tooltip, Legend);
 
-const InventoryPieChart = () => {
+const InventoryPieChart = ({ tableData, onTotalSpaceUpdate }) => {
+
+  console.log('tableData-piechart:', tableData);
+
+  //Group the data by itemType and sum the amount
+  const itemTypeAmounts = tableData.reduce((acc, item) => {
+    const { itemType, amount } = item;
+    
+    if (acc[itemType]) {
+      acc[itemType] += amount;  // Add amount if the itemType already exists
+    } else {
+      acc[itemType] = amount;   // Initialize with the current amount if new
+    }
+    
+    return acc;
+  }, {});
+
+  //Prepare data for the chart
+  const labels = Object.keys(itemTypeAmounts);  // The item types
+  const dataValues = Object.values(itemTypeAmounts);  // The total amounts for each item type
+
+  // Calculate the total occupied space
+  const totalOccupiedSpace = tableData.reduce((total, item) => total + item.occupiedSpace, 0);
+
+  // Pass the total occupied space to the parent using useEffect
+  useEffect(() => {
+    if (onTotalSpaceUpdate) {
+      onTotalSpaceUpdate(totalOccupiedSpace);  // Pass total occupied space to the parent
+    }
+  }, [totalOccupiedSpace, onTotalSpaceUpdate]);
+
+  console.log('total OccupiedSpace passing- value:', totalOccupiedSpace);
+
   // Define chart data
   const data = {
-    labels: ['Free', 'Item 1', 'Item 2', 'Item 3', 'Item 4'],
+    labels: labels,
     datasets: [
       {
-        data: [20, 30, 15, 10, 25],  // Data percentages (should add up to 100%)
+        data: dataValues,  // Use the combined amount data
         backgroundColor: [
-          '#A7D6F1',  // Light blue for Free
-          '#3A8BD1',  // Dark blue for Item 1
-          '#FDB678',  // Orange for Item 2
-          '#FFE2B5',  // Light orange for Item 3
-          '#D0D0D0',  // Grey for Item 4
+          '#A7D6F1',  // Light blue
+          '#3A8BD1',  // Dark blue
+          '#FDB678',  // Orange
+          '#FFE2B5',  // Light orange
+          '#D0D0D0',  // Grey
+          '#A7F1A7',  // Light green
+          '#F1A7D6',  // Pink
+          '#F1E0A7',  // Yellow
+          '#A7B3F1',  // Light purple
         ],
         borderColor: '#ffffff',  // Optional: white border between segments
         borderWidth: 1,
@@ -44,7 +80,7 @@ const InventoryPieChart = () => {
     <div className="inventory-chart">
 
       <div className="inventory-chart-headings">
-        <h3>Inventory 1</h3>
+        <h3>Inventory</h3>
         <p>Current Status</p>
       </div>
 
@@ -54,11 +90,12 @@ const InventoryPieChart = () => {
             <Pie data={data} options={options} />
         </div>
         <ul className="legend">
-            <li><span className="box free"></span>Free</li>
-            <li><span className="box item1"></span>Item 1</li>
-            <li><span className="box item2"></span>Item 2</li>
-            <li><span className="box item3"></span>Item 3</li>
-            <li><span className="box item4"></span>Item 4</li>
+          {labels.map((label, index) => (
+            <li key={index}>
+              <span className="box" style={{ backgroundColor: data.datasets[0].backgroundColor[index] }}></span>
+              {label}
+            </li>
+          ))}
         </ul>
       </div>
       

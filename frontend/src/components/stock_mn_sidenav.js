@@ -18,7 +18,7 @@ const St_SideNav = ({ isCollapsed, toggleSidebar }) => {
 
    const [showAddStockModal, setShowAddStockModal] = useState(false); //State to handle modal visibility
    
-   const [showAddInventoryModal, setShowAddInventoryModal] = useState(false); // **Added state for Add Inventory modal**
+   const [showAddInventoryModal, setShowAddInventoryModal] = useState(false); // state for Add Inventory modal
 
   return (
     <div className={isCollapsed ? "sidebar collapsed" : "sidebar"}>
@@ -48,7 +48,7 @@ const St_SideNav = ({ isCollapsed, toggleSidebar }) => {
           </Link>
         </li>
 
-        {/* Updated onClick event to show the modal */}
+        {/* onClick event to show the modal */}
         <li className={`nav-item ${activeItem === "Add Stock" ? "active" : ""}`} 
             onClick={() => { setActiveItem("Add Stock"); setShowAddStockModal(true); //Open modal when Add Stock is clicked
             }} title="Add Stock">
