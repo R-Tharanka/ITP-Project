@@ -61,6 +61,7 @@
   }
   
   .stockpile-item {
+    display: flex;
     background-color: #F8FAFC;
     border-radius: 10px;
     padding: 20px;
@@ -68,6 +69,9 @@
     width: 160px;
     /* box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); */
     flex-basis: 160px;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: stretch;
 
   }
   
@@ -95,6 +99,7 @@
   .stockpile-item h3 {
     font-size: 16px;
     margin-bottom: 5px;
+    margin-top: 5px;
   }
   
   .stockpile-item p {
@@ -129,5 +134,60 @@
 }
   
 
-/* -----------------swiper---------------- */
+/* -----------------card slider---------------- */
 
+
+/* -------- arrow --------- */
+.arrow {
+  top: -21px;
+  right: -15px;
+  width: 15px;
+  height: 3px;
+  background-color: red; /* Starting color for the arrow body */
+  position: relative;
+  transform: rotate(130deg); /* Rotate the arrow to point bottom-left */
+  animation: blink 1s infinite, scale 1s infinite; /* Combine the blinking and scaling animations */
+}
+
+/* Keyframes for blinking effect */
+@keyframes blink {
+  0%, 100% {
+    background-color: red; /* Initial color */
+  }
+  50% {
+    background-color: orange; /* Color halfway through the blink */
+  }
+}
+
+/* Keyframes for scaling effect */
+/* @keyframes scale {
+  0%, 100% {
+    transform: rotate(130deg) scale(1);
+  }
+  50% {
+    transform: rotate(130deg) scale(1.1);
+  }
+} */
+
+.arrow::after {
+  content: '';
+  position: absolute;
+  right: -6px;
+  top: -3.72px;
+  width: 0;
+  height: 0;
+  border-left: 7px solid red; /* Arrow head color */
+  border-top: 6px solid transparent;
+  border-bottom: 6px solid transparent;
+  animation: blink-head 1s infinite; /* Add a separate blinking animation for the arrowhead */
+}
+
+/* Keyframes for blinking effect for the arrowhead */
+@keyframes blink-head {
+  0%, 100% {
+    border-left-color: red; /* Initial color */
+  }
+  50% {
+    border-left-color: orange; /* Color halfway through the blink */
+  }
+}
