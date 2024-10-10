@@ -58,6 +58,7 @@
     justify-content: space-evenly;
     flex-wrap: wrap;
     gap: 20px;
+    transition: transform 0.5s ease-in-out;
   }
   
   .stockpile-item {
@@ -136,6 +137,25 @@
 
 /* -----------------card slider---------------- */
 
+.stockpile-items-slider{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  flex-wrap: nowrap;
+}
+
+.left-nav-arrow{
+  rotate: 180deg;
+}
+
+.left-nav-arrow-img{
+  width: 25px;
+  height: auto;
+}
+.right-nav-arrow-img{
+  width: 25px;
+  height: auto;
+}
 
 /* -------- arrow --------- */
 .arrow {

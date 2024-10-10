@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import axios from 'axios';
 import './styles/stock_mn_header.css';
 import bellIcon from '../assets/img/stockpile management/icon/bell.png';
@@ -36,7 +37,9 @@ const St_Header = () => {
     <div className="header-wrap">
       <header className="st-header">
         <div className="st-logo">
-          <h1>NELCO</h1>
+          <Link to="/" className="header-home-link">
+            <h1>NELCO</h1>
+          </Link>
         </div>
         <div className="st-header-right">
           <div className="st-notifications" onClick={toggleNotifications}>
