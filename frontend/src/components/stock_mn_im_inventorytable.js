@@ -71,7 +71,7 @@ const ST_InventoryTable = ({ stockpileData }) => {
               <th>Location</th>
               <th>Capacity</th>
               <th>Categories</th>
-              <th>Status</th>
+              {/* <th>Status</th> */}
               <th>Action</th>
             </tr>
           </thead>
@@ -88,11 +88,11 @@ const ST_InventoryTable = ({ stockpileData }) => {
                     <td>{item.location}</td>
                     <td>{item.capacity}</td>
                     <td>{selectedItemTypes.length > 0 ? selectedItemTypes.join(', ') : 'No Categories Selected'}</td>
-                    <td>
+                    {/* <td>
                       <span className={`status-badge ${item.status === 'In Stock' ? 'in-stock' : 'out-of-stock'}`}>
                         {item.status}
                       </span>
-                    </td>
+                    </td> */}
                     <td className="action-buttons">
                       <button className="update-button" onClick={() => openPopup(item)}>Update</button>
                       <button className="remove-button" onClick={() => openRemovePopup(item)}>Remove</button>

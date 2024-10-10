@@ -30,7 +30,7 @@ const InventoryManage = () => {
     // State for dynamic data  -----------------------------------------------
     const [totalInventories, settotalInventories] = useState(0);
     const [inStock, setInStock] = useState(1);
-    const [outOfStock, setOutOfStock] = useState(1);
+    const [outOfStock, setOutOfStock] = useState(0);
 
     // fetching data from the backend
     useEffect(() => {
@@ -60,6 +60,12 @@ const InventoryManage = () => {
                 // Update state with calculated values
                 setInventoryData(fetchedData); 
                 settotalInventories(totalInventoriesCount);
+                
+                if (totalInventoriesCount > inStock) {
+                    setOutOfStock(totalInventoriesCount - inStock);
+                } else {
+                    setOutOfStock(0); 
+                }
 
             } catch (error) {
                 console.error('Error fetching inventory data:', error);
