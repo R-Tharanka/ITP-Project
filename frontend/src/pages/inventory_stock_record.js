@@ -78,6 +78,9 @@ const InventoryStockRecord = () => {
         }
         
         const companyName = "NELCO";
+        const companyAddress = "Malwatta, Godakawela, Ratnapura, Sri Lanka, 70160"; 
+        const companyEmail = "info@nelco.lk";
+        const fax = "0452 240 242  "
         const currentDate = format(new Date(), 'yyyy-MM-dd');
 
         if (fileType === 'csv') {
@@ -124,14 +127,20 @@ const InventoryStockRecord = () => {
             // Add the company name and current date
             doc.setFontSize(16);
             doc.text(companyName, 14, 10);
+
+            doc.setFontSize(10);
+            doc.text(companyAddress, 14, 19);  // Address at position (14, 16)
+            doc.text(`Email: ${companyEmail}`, 14, 24);  // Email at position (14, 22)
+            doc.text(`Fax: ${fax}`, 14, 29)
+
             doc.setFontSize(10);
             doc.text(`Date: ${currentDate}`, 191, 10, { align: 'right' });
 
             doc.setLineWidth(0.5);
-            doc.line(14, 15, 191, 15); // From x1, y1 (left) to x2, y2 (right)
+            doc.line(14, 33, 191, 33); // From x1, y1 (left) to x2, y2 (right)
             
             doc.setFontSize(14);
-            doc.text(`${activeTab.charAt(0).toUpperCase() + activeTab.slice(1)} Report`, 14, 27);
+            doc.text(`${activeTab.charAt(0).toUpperCase() + activeTab.slice(1)} Report`, 14, 41);
             
             doc.autoTable({
                 head: [["SKU", "Item Name", "Type", "Date", "Amount", "Worth", "Occupied Space"]],
@@ -170,7 +179,7 @@ const InventoryStockRecord = () => {
                     5: { halign: 'left', cellWidth: 20 },  //(Worth)
                     6: { halign: 'left', cellWidth: 30 }, //(Occupied Space)
                 },
-                margin: { top: 35 },  // Top margin
+                margin: { top: 46 },  // Top margin
 
             });
             
