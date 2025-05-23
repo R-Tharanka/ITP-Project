@@ -55,6 +55,8 @@ This system aims to streamline the company's inventory operations by providing r
 ### Frontend
 ```
 frontend/
+├── .gitignore         # Git ignore file for frontend
+├── package.json       # Project dependencies and scripts
 ├── public/            # Public assets
 │   ├── index.html     # Main HTML file
 │   ├── favicon.ico    # Website icon
@@ -128,10 +130,8 @@ frontend/
 ### Backend
 ```
 backend/
-├── config/            # Configuration files
 ├── controllers/       # Request handlers
 │   └── userController.js   # User-related controller
-├── middleware/        # Express middleware
 ├── models/            # MongoDB schemas
 │   ├── Inventory.js          # Inventory model
 │   ├── InventoryStatus.js    # Inventory status model
@@ -282,12 +282,3 @@ The Operations Portal serves as the main entry point for users, providing access
 
 This project is licensed under the MIT License - see the LICENSE file for details.
 
-## Contact
-
-NELCO - [www.nelco.lk](http://www.nelco.lk) - info@nelco.lk
-
-## Acknowledgments
-
-- Chart.js for the visualization library
-- MongoDB team for the excellent database
-- React team for the powerful frontend framework
