@@ -55,8 +55,6 @@ This system aims to streamline the company's inventory operations by providing r
 ### Frontend
 ```
 frontend/
-├── .gitignore         # Git ignore file for frontend
-├── package.json       # Project dependencies and scripts
 ├── public/            # Public assets
 │   ├── index.html     # Main HTML file
 │   ├── favicon.ico    # Website icon
@@ -123,7 +121,8 @@ frontend/
 │       ├── operation_portal.css
 │       ├── operation_portal_main_side_navigation.css
 │       └── stock_mn_mnstock_filter.css
-│
+├── .gitignore         # Git ignore file for frontend
+└── package.json       # Project dependencies and scripts
 
 ```
 
