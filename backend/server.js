@@ -19,6 +19,9 @@ mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopol
   .then(() => console.log('MongoDB connected successfully'))
   .catch((err) => console.error('MongoDB connection error:', err));
 
+// API Routes
+app.use('/api/users', require('./routes/userRoutes'));
+
 // API route to add inventory
 const inventoryRoutes = require('./routes/inventoryRoutes');
 app.use('/api/inventory', inventoryRoutes);// This makes the route available at /api/inventory
