@@ -2,6 +2,9 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    position: fixed;
+    width: 100%;
+    z-index: 10;
     padding: 10px 20px;
     background-color: #f5f7f9;
     /* border-bottom: 1px solid #e0e0e0; */

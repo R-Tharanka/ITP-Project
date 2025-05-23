@@ -1,0 +1,140 @@
+/* Sidebar styles */
+.op-sidebar{
+    margin-top: 0px !important; 
+    transition: width 0.3s ease;
+}
+
+.op-sidebar .nav-item{
+    width: 190px;
+}
+
+.side-nav {
+    position: fixed;
+    background-color: #1c4532;
+    height: 80.7vh;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    transition: width 0.3s ease;
+    border-top-right-radius: 20px;
+    margin-top: 40px;
+    overflow: hidden;
+    z-index: 12;
+  }
+  
+  .side-nav.collapsed {
+    width: 50px; 
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+  
+  .side-nav.expanded {
+    width: 190px; 
+  }
+  
+  .toggle-btn {
+    align-self: flex-end;
+    cursor: pointer;
+  }
+  
+  .toggle-icon {
+    width: 30px;
+  }
+  
+  .nav-links {
+    list-style: none;
+    padding: 0;
+    margin-top: 40px;
+  }
+  
+  .nav-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+    padding: 10px;
+    cursor: pointer;
+    border-radius: 8px;
+    transition: background-color 0.3s ease;
+  }
+  
+  .nav-item .nav-icon {
+    width: 30px;
+    height: 30px;
+    margin-right: 20px;
+  }
+  
+  .nav-item span {
+    font-size: 15px;
+    color: #fff;
+  }
+  
+  .side-nav.collapsed .nav-item span {
+    display: none; 
+  }
+  
+  .side-nav.collapsed .nav-icon {
+    margin-right: 0;
+  }
+  
+  
+  .nav-item.active {
+    background-color: #145a32; 
+  }
+  
+  .nav-item.active .nav-icon,
+  .nav-item.active span {
+    color: #fff; 
+  }
+  
+  
+  .nav-item:hover {
+    background-color: #2e6b47; 
+  }
+
+  .dropdown-container {
+    display: block;
+    padding-left: 30px;
+    margin-top: -10px;
+    margin-bottom: 10px;
+}
+
+.dropdown-item {
+    padding: 12px;
+    color: #333;
+    display: block;
+    font-size: 14px;
+    text-decoration: none;
+    border-radius: 6px;
+}
+.dropdown-container a{
+    list-style: none;
+    text-decoration: none;
+    color: #fff;
+}
+.nav-item a{
+    list-style: none;
+    text-decoration: none;
+}
+
+.nav-item.show-dropdown .dropdown-container {
+    display: block;
+  }
+  
+
+.dropdown-item:hover {
+    background-color: #2e6b47;
+    cursor: pointer;
+}
+
+.show-dropdown .dropdown-container {
+    display: block; /* Show dropdown when toggled */
+}
+
+.nav-item .dropdown-arrow {
+    margin-left: auto;
+}
+
+.nav-item.active .dropdown-arrow {
+    transform: rotate(180deg);
+    transition: transform 0.2s ease;
+}

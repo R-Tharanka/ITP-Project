@@ -1,15 +1,65 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 
 import Header from '../components/op_port_header';
 import '../styles/operation_portal.css';
+import '../styles/operation_portal_main_side_navigation.css'
 import Footer from '../components/footer';
-import OpChartProduction from '../components/chart/op_chartProduction';
-import OpChartSales from '../components/chart/op_chartSales';
+// import OpChartProduction from '../components/chart/op_chartProduction';
+// import OpChartSales from '../components/chart/op_chartSales';
+
+import ToggleIcon from '../assets/img/Operations Portal/icon/menus.png';
+import SupplyChainIcon from '../assets/img/Operations Portal/icon/supply-chain.png';
+import InventoryManagementIcon from '../assets/img/Operations Portal/icon/inventory-management.png';
+import ProductionIcon from '../assets/img/Operations Portal/icon/product-management.png';
+import HumanResourceIcon from '../assets/img/Operations Portal/icon/hr.png';
+import FinancialIcon from '../assets/img/Operations Portal/icon/financial.png';
+
 import heroImage from '../assets/img/Operations Portal/hero-image.png';
+import GMP from '../assets/img/Operations Portal/GMP.png';
+import HACCP from '../assets/img/Operations Portal/HACCP.png';
+import RvA from '../assets/img/Operations Portal/RvA.png';
+import SLAB from '../assets/img/Operations Portal/SLAB.png';
+import SLS22000 from '../assets/img/Operations Portal/SLS-22000.png';
 
 
-function opPortal() {
+const OpPortal = () => {
+  const [isCollapsed, setIsCollapsed] = useState(false); // State to track sidebar collapse
+  const [activeItem, setActiveItem] = useState(''); 
+  const [showSupplyDropdown, setShowSupplyDropdown] = useState(false); // Track dropdown for Supply Chain
+  const [showProductionDropdown, setShowProductionDropdown] = useState(false);
+
+  const toggleSidebar = () => {
+    setIsCollapsed(!isCollapsed); // Toggle collapse state
+  };
+
+  const toggleSupplyDropdown = () => {
+    setShowSupplyDropdown(!showSupplyDropdown); // Toggle supply dropdown
+  };
+
+  const toggleProductionDropdown = () => {
+    setShowProductionDropdown(!showProductionDropdown); // Toggle production dropdown
+  };
+
+  const handleNavItemClick = (item) => {
+    // Handle navigation and active state
+    setActiveItem(item);
+  
+    // Toggle the respective dropdowns based on clicked item
+    if (item === 'Supply Chain') {
+      toggleSupplyDropdown();
+      setShowProductionDropdown(false); // Close other dropdown
+    } else if (item === 'Production') {
+      toggleProductionDropdown();
+      setShowSupplyDropdown(false); // Close other dropdown
+    } else {
+      // Close all dropdowns for non-dropdown items
+      setShowSupplyDropdown(false);
+      setShowProductionDropdown(false);
+    }
+  };
+  
+
   return (
     
         <div className='opPortal'>
@@ -18,42 +68,78 @@ function opPortal() {
           <div className='body-content-container'>
 
             {/* Sidebar */}
-            <div className="side-nav">
+            <div className={isCollapsed ? 'side-nav op-sidebar collapsed' : 'side-nav op-sidebar'}>
 
-                <div className="menu-icon">
-                  <i className="toggl_menu_i">
-                    <img src={require('../assets/img/Operations Portal/icon/menus.png')} alt="menu" className="toggl_menu_img" />
-                  </i>
-                </div>
+              {/* Toggle button */}
+              <div className="toggle-btn" onClick={toggleSidebar}>
+                <img src={ToggleIcon} alt="Toggle" className="toggle-icon" />
+              </div>
 
-              <nav className="nav-links">
+              <ul className="nav-links">
+                <li
+                  className={`nav-item ${activeItem === 'Supply Chain' ? 'active show-dropdown' : ''}`}
+                  onClick={() => {
+                    setActiveItem('Supply Chain');
+                    toggleSupplyDropdown();
+                  }}
+                >
+                  <img src={SupplyChainIcon} alt="Supply Chain" className="nav-icon" />
+                  {!isCollapsed && <span>Supply Chain</span>}
+                </li>
+                {/* Dropdown links for Supply Chain */}
+                {showSupplyDropdown && !isCollapsed && (
+                  <ul className="dropdown-container">
+                    <li className="dropdown-item"><Link to="/supplier-handling">Supplier Handling</Link></li>
+                    <li className="dropdown-item"><Link to="/resource-management">Resource</Link></li>
+                  </ul>
+                )}
 
-                <a href="#" className="nav-item">
-                  <img src={require('../assets/img/Operations Portal/icon/supply-chain.png')} alt="Supply Chain" className="nav-icon" />
-                  <span>Supply Chain</span>
-                </a>
+                <li 
+                  className={`nav-item ${activeItem === 'Store' ? 'active' : ''}`} 
+                  onClick={() => setActiveItem('Store')}
+                >
+                  <Link 
+                  to="/inventory">
+                    <img src={InventoryManagementIcon} alt="Store" className="nav-icon" />
+                    {!isCollapsed && <span>Store</span>}
+                  </Link>
+                </li>
 
-                <Link to="/inventory" className="nav-item">
-                  <img src={require('../assets/img/Operations Portal/icon/inventory-management.png')} alt="Store" className="nav-icon" />
-                  <span>Store</span>
-                </Link>
+                <li
+                  className={`nav-item ${activeItem === 'Production' ? 'active show-dropdown' : ''}`}
+                  onClick={() => {
+                    setActiveItem('Production');
+                    toggleProductionDropdown();
+                  }}
+                >
+                  <img src={ProductionIcon} alt="Production" className="nav-icon" />
+                  {!isCollapsed && <span>Production</span>}
+                </li>
+                {/* Dropdown links for Production */}
+                {showProductionDropdown && !isCollapsed && (
+                  <ul className="dropdown-container">
+                    <li className="dropdown-item"><Link to="/operation">Operation</Link></li>
+                    <li className="dropdown-item"><Link to="/quality">Quality</Link></li>
+                    <li className="dropdown-item"><Link to="/sales">Sales</Link></li>
+                  </ul>
+                )}
 
-                <a href="#" className="nav-item">
-                  <img src={require('../assets/img/Operations Portal/icon/product-management.png')} alt="Production" className="nav-icon" />
-                  <span>Production</span>
-                </a>
+                <li  
+                  className={`nav-item ${activeItem === 'Human Resource' ? 'active' : ''}`} 
+                  onClick={() => setActiveItem('Human Resource')}
+                >
+                  <img src={HumanResourceIcon} alt="Human Resource" className="nav-icon" />
+                  {!isCollapsed && <span>Human Resource</span>}
+                </li>
 
-                <a href="#" className="nav-item">
-                  <img src={require('../assets/img/Operations Portal/icon/hr.png')} alt="Human Resource" className="nav-icon" />
-                  <span>Human Resource</span>
-                </a>
-
-                <a href="#" className="nav-item">
-                  <img src={require('../assets/img/Operations Portal/icon/financial.png')} alt="Financial" className="nav-icon" />
-                  <span>Financial</span>
-                </a>
-              </nav>
-              
+                <li 
+                  className={`nav-item ${activeItem === 'Financial' ? 'active' : ''}`} 
+                  onClick={() => setActiveItem('Financial')}
+                >
+                  <img src={FinancialIcon} alt="Financial" className="nav-icon" />
+                  {!isCollapsed && <span>Financial</span>}
+                </li>
+              </ul>
             </div>
 
             <div className='body-content'>
@@ -107,10 +193,10 @@ function opPortal() {
 
               {/* Charts Section */}
               
-              <div className='chart-main-container'>
+              {/* <div className='chart-main-container'>
                 <OpChartSales />
                 <OpChartProduction />
-              </div>
+              </div> */}
               
 
               {/* Values Section */}
@@ -119,11 +205,11 @@ function opPortal() {
                 <h3>Our Values</h3>
 
                 <div className="values-logos">
-                  <img src="path/to/logo1.jpg" alt="Value 1" />
-                  <img src="path/to/logo2.jpg" alt="Value 2" />
-                  <img src="path/to/logo3.jpg" alt="Value 3" />
-                  <img src="path/to/logo4.jpg" alt="Value 4" />
-                  <img src="path/to/logo5.jpg" alt="Value 5" />
+                  <img src={GMP} alt="Value 1" />
+                  <img src={HACCP} alt="Value 2" />
+                  <img src={RvA} alt="Value 3" />
+                  <img src={SLAB} alt="Value 4" />
+                  <img src={SLS22000} alt="Value 5" />
                 </div>
               </section>
 
@@ -137,4 +223,4 @@ function opPortal() {
   );
 }
 
-export default opPortal;
+export default OpPortal;

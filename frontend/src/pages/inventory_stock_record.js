@@ -80,7 +80,7 @@ const InventoryStockRecord = () => {
         const companyName = "NELCO";
         const companyAddress = "Malwatta, Godakawela, Ratnapura, Sri Lanka, 70160"; 
         const companyEmail = "info@nelco.lk";
-        const fax = "0452 240 242  "
+        const fax = "0452 240 242  ";
         const currentDate = format(new Date(), 'yyyy-MM-dd');
 
         if (fileType === 'csv') {
@@ -134,8 +134,9 @@ const InventoryStockRecord = () => {
             doc.text(`Fax: ${fax}`, 14, 29)
 
             doc.setFontSize(10);
-            doc.text(`Date: ${currentDate}`, 191, 10, { align: 'right' });
+            doc.text(`Date: ${currentDate}`, 191, 19, { align: 'right' });
 
+            doc.setDrawColor(22, 160, 132);
             doc.setLineWidth(0.5);
             doc.line(14, 33, 191, 33); // From x1, y1 (left) to x2, y2 (right)
             

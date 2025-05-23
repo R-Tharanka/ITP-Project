@@ -13,14 +13,14 @@ function Header()
                 <span>News Feed</span>
                 <span>Quick Actions</span>
                 </nav>
-                <div className="header-icons">
+                {/* <div className="header-icons">
                 <i className="bell-icon"></i>
                 <img 
                     src="https://via.placeholder.com/40" 
                     alt="User Avatar" 
                     className="user-avatar" 
                 />
-                </div>
+                </div> */}
             </div>
         </header>
     );
