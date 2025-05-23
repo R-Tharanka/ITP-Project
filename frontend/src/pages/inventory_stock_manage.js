@@ -75,7 +75,7 @@ const InventoryStockManage = () => {
                 <div className={`stockpile-section ${isSidebarCollapsed ? 'collapsed' : 'expanded'}`}>
 
                     {/* Filter Section */}
-                    <InventoryFilterSection 
+                    <InventoryFilterSection
                         setFilteredCategory={setFilteredCategory}
                         setFilteredData={setFilteredData}
                         tableData={tableData}  // Pass tableData to the filter section

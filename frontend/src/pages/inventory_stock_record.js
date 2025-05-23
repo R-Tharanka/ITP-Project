@@ -37,7 +37,7 @@ const InventoryStockRecord = () => {
                 console.error("Error fetching stock data:", error);
             }
         };
-    
+
         fetchStocks();
     }, []);
 
@@ -52,11 +52,11 @@ const InventoryStockRecord = () => {
                 console.error("Error fetching unloading stock data:", error);
             }
         };
-    
+
         fetchUnloadingStocks();  // Fetch the unloading data when the component mounts
     }, []);  // Empty dependency array to run only once
-    
-    
+
+
     // Filter data based on search query
     const filterData = (data) => {
         return data.filter(item =>
@@ -76,9 +76,9 @@ const InventoryStockRecord = () => {
             alert('No data available to generate a report.');
             return;
         }
-        
+
         const companyName = "NELCO";
-        const companyAddress = "Malwatta, Godakawela, Ratnapura, Sri Lanka, 70160"; 
+        const companyAddress = "Malwatta, Godakawela, Ratnapura, Sri Lanka, 70160";
         const companyEmail = "info@nelco.lk";
         const fax = "0452 240 242  ";
         const currentDate = format(new Date(), 'yyyy-MM-dd');
@@ -87,13 +87,13 @@ const InventoryStockRecord = () => {
             // CSV Generation
             const csvData = [
 
-                [`${companyName}`,``,``,``,``,`Date:`, `${currentDate}`], //company name and date
+                [`${companyName}`, ``, ``, ``, ``, `Date:`, `${currentDate}`], //company name and date
                 [], // Empty line for separation
                 ["SKU", "Item Name", "Type", "Date", "Amount", "Worth", "Occupied Space"],
                 ...data.map(item => [
-                    item.sku,  
-                    item.itemName,  
-                    item.itemType,  
+                    item.sku,
+                    item.itemName,
+                    item.itemType,
                     format(new Date(item.date), 'yyyy-MM-dd'), // Format date
                     item.amount,
                     item.worth,
@@ -102,7 +102,7 @@ const InventoryStockRecord = () => {
             ];
 
             console.log("csvData:", csvData);
-            
+
             // Join data with proper line endings for CSV files
             const csvContent = csvData.map(row => row.join(",")).join("\r\n");
             console.log("csvContent:", csvContent);
@@ -139,10 +139,10 @@ const InventoryStockRecord = () => {
             doc.setDrawColor(22, 160, 132);
             doc.setLineWidth(0.5);
             doc.line(14, 33, 191, 33); // From x1, y1 (left) to x2, y2 (right)
-            
+
             doc.setFontSize(14);
             doc.text(`${activeTab.charAt(0).toUpperCase() + activeTab.slice(1)} Report`, 14, 41);
-            
+
             doc.autoTable({
                 head: [["SKU", "Item Name", "Type", "Date", "Amount", "Worth", "Occupied Space"]],
                 body: data.map(item => [
@@ -183,13 +183,13 @@ const InventoryStockRecord = () => {
                 margin: { top: 46 },  // Top margin
 
             });
-            
+
             doc.save(`${activeTab}_report.pdf`);
         }
     };
 
     const renderTable = (data) => (
-        <div  className="stock-rec-table-container">
+        <div className="stock-rec-table-container">
             <table className="stock-rec-table">
                 <thead>
                     <tr>
@@ -233,7 +233,7 @@ const InventoryStockRecord = () => {
             <StockMnHeader />
 
             <div className={`main-content ${isSidebarCollapsed ? 'collapsed' : 'expanded'}`}>
-                
+
                 {/* Pass toggleSidebar function to the side nav component */}
                 <StockMnSideNav isCollapsed={isSidebarCollapsed} toggleSidebar={toggleSidebar} />
 
@@ -241,11 +241,11 @@ const InventoryStockRecord = () => {
                     <div className="tab-section">
                         <div>
                             <button className={`tab-button ${activeTab === 'loading' ? 'active' : ''}`}
-                                    onClick={() => setActiveTab('loading')}>
+                                onClick={() => setActiveTab('loading')}>
                                 Loading
                             </button>
                             <button className={`tab-button ${activeTab === 'unloading' ? 'active' : ''}`}
-                                    onClick={() => setActiveTab('unloading')}>
+                                onClick={() => setActiveTab('unloading')}>
                                 Unloading
                             </button>
                         </div>
@@ -257,7 +257,7 @@ const InventoryStockRecord = () => {
                                 value={searchQuery}
                                 onChange={(e) => setSearchQuery(e.target.value)}  // Update searchQuery
                             />
-                            <img src={searchImg} alt="search-icon" className="search-Img"/>
+                            <img src={searchImg} alt="search-icon" className="search-Img" />
                         </div>
                     </div>
 

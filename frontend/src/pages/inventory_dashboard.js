@@ -35,13 +35,13 @@ const InventoryDashboard = () => {
   //fetching data from backend
   const fetchData = async () => {
     try {
-        // Make an API request to fetch the inventory status data
-        const response = await axios.get('http://localhost:5000/api/inventory_status'); //API route
-        setallTableData(response.data); // Update tableData with fetched data from the backend
+      // Make an API request to fetch the inventory status data
+      const response = await axios.get('http://localhost:5000/api/inventory_status'); //API route
+      setallTableData(response.data); // Update tableData with fetched data from the backend
 
-        console.log(response.data);
+      console.log(response.data);
     } catch (error) {
-        console.error('Error fetching inventory status data:', error);
+      console.error('Error fetching inventory status data:', error);
     }
   };
 
@@ -77,7 +77,7 @@ const InventoryDashboard = () => {
     // Return the appropriate image if found, otherwise fallback to item1img
     const itemImage = imageMap[itemType]?.[itemName] || item1img; // Access itemName without toLowerCase()
     if (itemImage === item1img) {
-        console.warn(`Image not found for: ${itemType} - ${itemName}`); // Log a warning if the image is not found
+      console.warn(`Image not found for: ${itemType} - ${itemName}`); // Log a warning if the image is not found
     }
     return itemImage;
   };
@@ -93,11 +93,11 @@ const InventoryDashboard = () => {
         <div className={`stockpile-section ${isSidebarCollapsed ? 'collapsed' : 'expanded'}`}>
           <div className="stockpile-header">
             <button className="stockpile-btn">Stockpile #I001</button>
-            <button className="add-stockpile-btn"  onClick={() => setShowAddInventoryModal(true) }>+ Add Inventory</button>
+            <button className="add-stockpile-btn" onClick={() => setShowAddInventoryModal(true)}>+ Add Inventory</button>
           </div>
 
           <div className="stockpile-items">
-            
+
             {/* Mapping over filtered items and rendering them */}
             {filteredItems.length > 0 ? (
               filteredItems.map((item, index) => (
@@ -117,12 +117,12 @@ const InventoryDashboard = () => {
             ) : (
               <p>No items matching the criteria.</p>
             )}
- 
+
           </div>
 
-          <St_InventoryStatus tableData={allTableData}/>
+          <St_InventoryStatus tableData={allTableData} />
 
-          <St_dshb_StockTable tableData={allTableData}  />
+          <St_dshb_StockTable tableData={allTableData} />
 
         </div>
       </div>
@@ -132,10 +132,10 @@ const InventoryDashboard = () => {
       </div>
 
       {/* Modal for Adding Inventory */}
-      <AddInventoryForm 
-         showModal={showAddInventoryModal} // **Pass the modal visibility state for Add Inventory**
-         onClose={() => setShowAddInventoryModal(false)} // **Function to close the modal for Add Inventory**
-       />
+      <AddInventoryForm
+        showModal={showAddInventoryModal} // **Pass the modal visibility state for Add Inventory**
+        onClose={() => setShowAddInventoryModal(false)} // **Function to close the modal for Add Inventory**
+      />
 
     </div>
   );

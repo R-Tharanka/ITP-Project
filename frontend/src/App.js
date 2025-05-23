@@ -14,11 +14,11 @@ function App() {
     <Router>
       <Routes>
 
-        <Route path="/" element={<OperationPortal />} /> 
+        <Route path="/" element={<OperationPortal />} />
         <Route path="/inventory" element={<InventoryDashboard />} />
-        <Route path="/inventory_manage" element={<InventoryManage/>} />
-        <Route path="/stock_record" element={<InventoryStockRecord/>} />
-        <Route path="/stock_manage" element={<InventoryStockManage/>} />
+        <Route path="/inventory_manage" element={<InventoryManage />} />
+        <Route path="/stock_record" element={<InventoryStockRecord />} />
+        <Route path="/stock_manage" element={<InventoryStockManage />} />
 
       </Routes>
     </Router>
