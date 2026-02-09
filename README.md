@@ -230,6 +230,12 @@ The Operations Portal serves as the main entry point for users, providing access
 - **Unloading Stock**: Navigate to Stock Management → Select item → Unload → Fill details → Confirm
 - **Generating Reports**: Navigate to Stock Records → Select date range → Choose format (CSV/PDF) → Generate
 
+## Q&A Discussion Idea
+
+**Title:** How should we track returns and wastage adjustments in the Stockpile Handling System?
+
+**Body:** We already capture loading/unloading records and inventory status in this project. For teams who have implemented similar inventory systems, what fields or workflows have helped you accurately track returned goods and wastage without double-counting stock? If you have suggestions for how the API or data models could better support these adjustments, please share your recommendations.
+
 ## Data Models
 
 ### Inventory
@@ -280,4 +286,3 @@ The Operations Portal serves as the main entry point for users, providing access
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE](https://github.com/R-Tharanka/ITP-Project/blob/master/LICENSE) file for details.
-
